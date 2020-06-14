@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="readWriteServiceImpl" class="ru.otus.spring.service.ReadWriteServiceImpl">
+    </bean>
+    
+    <bean id="questionServiceImpl" class="ru.otus.spring.service.QuestionsServiceImpl">
+        <constructor-arg value="questions.csv"/>
+    </bean>
+
+    <bean id="testService" class="ru.otus.spring.service.GameServiceImpl">
+        <constructor-arg ref="questionServiceImpl"/>
+        <constructor-arg ref="readWriteServiceImpl"/>
+    </bean>
+
+</beans>
