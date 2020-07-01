@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -22,9 +19,10 @@ public class QuestionServiceImplTestRU {
 
     @BeforeEach
     void setup(){
+        Locale language = Locale.forLanguageTag("ru");
         questionService = new QuestionServiceImpl();
         Resource resource = new ClassPathResource("questions_ru.CSV");
-        questionService.init(resource);;
+        questionService.init(resource, language);;
     }
 
     @DisplayName("содержит пять вопросов")

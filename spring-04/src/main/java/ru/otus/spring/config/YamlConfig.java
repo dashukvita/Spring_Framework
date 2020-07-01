@@ -36,7 +36,7 @@ public class YamlConfig {
         QuestionService questionServiceImpl = new QuestionServiceImpl();
         Resource resource = new ClassPathResource(fileName.replace(".", "_" + language + "."));
 
-        questionServiceImpl.init(resource);
+        questionServiceImpl.init(resource, language);
         return questionServiceImpl;
     }
 }

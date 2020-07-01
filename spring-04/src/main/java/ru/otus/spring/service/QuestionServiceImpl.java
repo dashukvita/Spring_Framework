@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -16,12 +17,13 @@ public class QuestionServiceImpl implements QuestionService {
     @Getter
     private Map<String, ArrayList<String>> questions;
 
-    public void init(Resource resource) {
+    public void init(Resource resource, Locale language) {
         try {
             questions = getQuestions(resource);
         } catch (IOException e) {
-            String error = "Произошла ошибка чтения ресурса с вопросами, -> " + e.getMessage();
-            throw new IllegalArgumentException(error);
+            String error = (language.equals(Locale.forLanguageTag("ru"))) ?
+                    "Произошла ошибка чтения ресурса с вопросами" : "Error reading resource with questions";
+            throw new IllegalArgumentException(error + e.getMessage());
         }
     }
 
