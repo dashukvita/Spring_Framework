@@ -1,5 +1,5 @@
 <h3>Тема: Конфигурирование Spring приложений</h3>
-<h4><a id="user-content-домашнее-задание-2" class="anchor" href="https://github.com/k-irina-alexandrovna/OTUS/tree/master/2020-02-otus-spring-Koniakina/homework2/src/main/resources#%D0%B4%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-2" aria-hidden="true"></a>Домашнее задание №2:</h4>
+<h4>Домашнее задание №2:</h4>
 <p><strong>Добавить файл настроек, Annotation- + Java-based конфигурация приложения</strong></p>
 <p><strong>Цель:</strong> конфигурировать Spring-приложения современным способом, как это и делается в современном мире.</p>
 <p><strong>Результат:</strong> готовое современное приложение на чистом Spring.</p>
