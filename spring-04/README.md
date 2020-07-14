@@ -1,5 +1,5 @@
 <h3>Продвинутая конфигурация Spring-приложений</h3>
-<h4>Домашнее задание №5:</h4>
+<h4>Домашнее задание №4:</h4>
 <div class="text text_p-small text_default">Перевести приложение для проведения опросов на Spring Shell</div>
 <div class="text text_p-small text_default">&nbsp;</div>
 <div class="text text_p-small text_default">Цель: После выполнения ДЗ вы сможете использовать Spring Shell, чтобы писать интерфейс приложения без Web.</div>
