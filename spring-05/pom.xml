@@ -11,42 +11,60 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>spring-05</artifactId>
 
+<!--    <properties>-->
+<!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+<!--        <maven.compiler.source>11</maven.compiler.source>-->
+<!--        <maven.compiler.target>11</maven.compiler.target>-->
+<!--        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>-->
+<!--        <minimal.maven.version>3.3.9</minimal.maven.version>-->
+<!--        <messager-starter.version>0.0.1-SNAPSHOT</messager-starter.version>-->
+
+<!--        <postgresql.version>42.2.11.jre7</postgresql.version>-->
+<!--        <h2database.version>1.4.200</h2database.version>-->
+
+<!--        <lombok.version>1.18.12</lombok.version>-->
+<!--        <shell.version>2.0.1.RELEASE</shell.version>-->
+<!--    </properties>-->
+
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
+        <postgresql.version>42.2.11.jre7</postgresql.version>
+        <h2database.version>1.4.200</h2database.version>
 
-        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-        <minimal.maven.version>3.3.9</minimal.maven.version>
-
-        <messager-starter.version>0.0.1-SNAPSHOT</messager-starter.version>
+        <lombok.version>1.18.12</lombok.version>
+        <shell.version>2.0.1.RELEASE</shell.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.shell</groupId>
             <artifactId>spring-shell-starter</artifactId>
-            <version>2.0.1.RELEASE</version>
+            <version>${shell.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2database.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -58,7 +76,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
 
     <build>
