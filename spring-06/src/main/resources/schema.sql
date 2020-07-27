@@ -4,30 +4,26 @@ drop table if exists genre;
 
 create table author
 (
-    author_id BIGINT PRIMARY KEY NOT NULL,
-    firstName CHARACTER VARYING(20) NOT NULL,
-    lastName CHARACTER VARYING(20) NOT NULL,
-    birthday CHARACTER VARYING(20) NOT NULL
+    id bigserial not null,
+    firstName character varying(20) not null,
+    lastName character varying(20) not null,
+    birthday character varying(20) not null,
+    primary key (id)
 );
-
 
 create table genre
 (
-    genre_id BIGINT PRIMARY KEY NOT NULL,
-    codeGenre CHARACTER VARYING(2) NOT NULL,
-    genre CHARACTER VARYING(200) NOT NULL
+    id bigserial not null,
+    codeGenre character varying(2) not null,
+    genre character varying(200) not null,
+    primary key (id)
 );
 
 create table book
 (
-    id BIGINT PRIMARY KEY NOT NULL,
-    author_id BIGINT,
-    genre_id BIGINT,
-    bookName CHARACTER VARYING(200) NOT NULL,
-    CONSTRAINT genre_id_fk
-        FOREIGN KEY (genre_id)
-            REFERENCES genre (genre_id),
-    CONSTRAINT author_id_fk
-        FOREIGN KEY (author_id)
-            REFERENCES author (author_id)
+    id bigserial not null,
+    genre_id bigint references genre(id) on delete cascade,
+    author_id bigint references author(id) on delete cascade,
+    bookName character varying(200) not null,
+    primary key (id)
 );

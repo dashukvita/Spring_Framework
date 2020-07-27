@@ -1,18 +1,23 @@
 package ru.otus.spring.domain;
 
 import lombok.*;
-import lombok.experimental.Accessors;
+
+import javax.persistence.*;
 
 @Data
-@Accessors(chain = true)
-@Setter
-@Getter
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "book")
 public class Book {
 
-    private final long id;
-    private final Author author;
-    private final Genre genre;
-    private final String bookName;
+    @Id
+    private long id;
+
+    private Author author;
+    private Genre genre;
+
+    @Column(name = "bookname", nullable = false, unique = true)
+    private String bookName;
 
 }

@@ -1,16 +1,25 @@
 package ru.otus.spring.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "author")
 public class Author {
 
-    private final long id;
-    private final String firstName;
-    private final String lastName;
-    private final String birthday;
+    @Id
+    private long id;
+
+    @Column(name = "firstname", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastname", nullable = false)
+    private String lastName;
+
+    @Column(name = "birthday")
+    private String birthday;
 }

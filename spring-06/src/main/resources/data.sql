@@ -1,18 +1,18 @@
-insert into author (author_id, firstName, lastName, birthday) values (1, 'Джоан', 'Роулинг', '31.07.1965');
-insert into author (author_id, firstName, lastName, birthday) values (2, 'Умберто', 'Эко', '05.01.1932');
-insert into author (author_id, firstName, lastName, birthday) values (3, 'Габриэль','Маркес', '06.03.1927');
-insert into author (author_id, firstName, lastName, birthday) values (4, 'Нассим','Талеб', '11.09.1960');
-insert into author (author_id, firstName, lastName, birthday) values (5, 'Анджей','Сапковский', '21.06.1948');
-insert into author (author_id, firstName, lastName, birthday) values (6, 'Косюн','Таками', '10.01.1969');
-insert into author (author_id, firstName, lastName, birthday) values (7, 'Оноре','Бальзак', '20.05.1799');
-insert into author (author_id, firstName, lastName, birthday) values (8, 'Бэнджамин','Грэм', '08.05.1894');
-insert into author (author_id, firstName, lastName, birthday) values (9, 'Курт','Ауст', '06.12.1955');
+insert into author (id, firstName, lastName, birthday) values (1, 'Джоан', 'Роулинг', '31.07.1965');
+insert into author (id, firstName, lastName, birthday) values (2, 'Умберто', 'Эко', '05.01.1932');
+insert into author (id, firstName, lastName, birthday) values (3, 'Габриэль','Маркес', '06.03.1927');
+insert into author (id, firstName, lastName, birthday) values (4, 'Нассим','Талеб', '11.09.1960');
+insert into author (id, firstName, lastName, birthday) values (5, 'Анджей','Сапковский', '21.06.1948');
+insert into author (id, firstName, lastName, birthday) values (6, 'Косюн','Таками', '10.01.1969');
+insert into author (id, firstName, lastName, birthday) values (7, 'Оноре','Бальзак', '20.05.1799');
+insert into author (id, firstName, lastName, birthday) values (8, 'Бэнджамин','Грэм', '08.05.1894');
+insert into author (id, firstName, lastName, birthday) values (9, 'Курт','Ауст', '06.12.1955');
 
-insert into genre (genre_id, codeGenre, genre) values (1, 'ХЛ', 'Детектив');
-insert into genre (genre_id, codeGenre, genre) values (2, 'ХЛ', 'Роман');
-insert into genre (genre_id, codeGenre, genre) values (3, 'ХЛ', 'Фантастика');
-insert into genre (genre_id, codeGenre, genre) values (4, 'БП', 'Экономика');
-insert into genre (genre_id, codeGenre, genre) values (5, 'БП', 'Управление финансами');
+insert into genre (id, codeGenre, genre) values (1, 'ХЛ', 'Детектив');
+insert into genre (id, codeGenre, genre) values (2, 'ХЛ', 'Роман');
+insert into genre (id, codeGenre, genre) values (3, 'ХЛ', 'Фантастика');
+insert into genre (id, codeGenre, genre) values (4, 'БП', 'Экономика');
+insert into genre (id, codeGenre, genre) values (5, 'БП', 'Управление финансами');
 
 insert into book (id, author_id, genre_id, bookName) values (1, 4, 4, 'Черный лебедь. Под знаком непредсказуемости');
 insert into book (id, author_id, genre_id, bookName) values (2, 4, 4, 'Рискуя собственной шкурой. Скрытая асимметрия повседневной жизни');

@@ -1,15 +1,22 @@
 package ru.otus.spring.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "genre")
 public class Genre {
 
-    private final long id;
-    private final String codeGenre;
-    private final String genre;
+    @Id
+    private long id;
+
+    @Column(name = "codegenre", nullable = false, unique = true)
+    private String codeGenre;
+
+    @Column(name = "genre", nullable = false, unique = true)
+    private String genre;
 }
