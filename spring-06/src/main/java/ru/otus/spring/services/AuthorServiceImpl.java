@@ -1,5 +1,6 @@
 package ru.otus.spring.services;
 
+import org.springframework.stereotype.Repository;
 import ru.otus.spring.dao.impl.AuthorDao;
 import ru.otus.spring.domain.Author;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorDao authorDao;
 
     @Override
-    public Author createAuthor(long author_id, String firstName, String lastname, String birthday){
-        Author author = new Author(author_id, firstName, lastname, birthday);
+    public Author createAuthor(long id, String firstName, String lastname, String birthday){
+        Author author = new Author(id, firstName, lastname, birthday);
         authorDao.create(author);
         return author;
     }

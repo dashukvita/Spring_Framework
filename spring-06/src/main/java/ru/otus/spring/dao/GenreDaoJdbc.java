@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class GenreDaoJdbc implements GenreDao {
+
+    @PersistenceContext
+    private EntityManager em;
 
     private final JdbcOperations jdbc;
 

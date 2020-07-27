@@ -15,8 +15,8 @@ public class GenreServiceImpl implements GenreService {
     private final GenreDao genreDao;
 
     @Override
-    public Genre createGenre(long genre_id, String codegenre, String genreName){
-        Genre genre = new Genre(genre_id, codegenre, genreName);
+    public Genre createGenre(long id, String codegenre, String genreName){
+        Genre genre = new Genre(id, codegenre, genreName);
         genreDao.create(genre);
         return genre;
     }

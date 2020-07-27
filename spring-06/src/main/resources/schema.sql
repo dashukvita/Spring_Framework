@@ -1,8 +1,8 @@
-drop table if exists book;
-drop table if exists author;
-drop table if exists genre;
+drop table if exists books;
+drop table if exists authors;
+drop table if exists genres;
 
-create table author
+create table authors
 (
     id bigserial not null,
     firstName character varying(20) not null,
@@ -11,7 +11,7 @@ create table author
     primary key (id)
 );
 
-create table genre
+create table genres
 (
     id bigserial not null,
     codeGenre character varying(2) not null,
@@ -19,11 +19,11 @@ create table genre
     primary key (id)
 );
 
-create table book
+create table books
 (
     id bigserial not null,
-    genre_id bigint references genre(id) on delete cascade,
-    author_id bigint references author(id) on delete cascade,
+    genre_id bigint references genres(id) on delete cascade,
+    author_id bigint references authors(id) on delete cascade,
     bookName character varying(200) not null,
     primary key (id)
 );
