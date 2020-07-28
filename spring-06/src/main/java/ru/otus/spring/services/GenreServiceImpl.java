@@ -1,6 +1,6 @@
 package ru.otus.spring.services;
 
-import ru.otus.spring.dao.impl.GenreDao;
+import ru.otus.spring.repositories.impl.GenreRepository;
 import ru.otus.spring.domain.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,29 +12,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
-    private final GenreDao genreDao;
+    private final GenreRepository genreRepository;
 
     @Override
     public Genre createGenre(long id, String codegenre, String genreName){
         Genre genre = new Genre(id, codegenre, genreName);
-        genreDao.create(genre);
+        genreRepository.save(genre);
         return genre;
     }
 
     @Override
     public Genre deleteGenre(long id){
-        Genre genre = genreDao.getById(id);
-        genreDao.deleteById(id);
+        Genre genre = genreRepository.getById(id);
+        genreRepository.deleteById(id);
         return genre;
     }
 
     @Override
     public Genre getByIdGenre(long id){
-        return genreDao.getById(id);
+        return genreRepository.getById(id);
     }
 
     @Override
     public List<Genre> getAllGenres(){
-        return genreDao.getAll();
+        return genreRepository.getAll();
     }
 }

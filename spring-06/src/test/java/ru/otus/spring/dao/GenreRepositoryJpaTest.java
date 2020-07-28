@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.repositories.GenreRepositoryJpa;
 
 import java.util.List;
 
@@ -15,19 +16,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @JdbcTest
-@Import(GenreDaoJdbc.class)
+@Import(GenreRepositoryJpa.class)
 @AutoConfigureTestDatabase(replace = NONE)
 @DisplayName("Класс GenreDaoJdbcTest")
-public class GenreDaoJdbcTest {
+public class GenreRepositoryJpaTest {
 
     @Autowired
-    private GenreDaoJdbc genreDaoJdbc;
+    private GenreRepositoryJpa genreRepositoryJpa;
 
     @Test
     @DisplayName("получение жанра по id из бд корректно")
     void getById() {
         int id = 1;
-        Genre genre = genreDaoJdbc.getById(id);
+        Genre genre = genreRepositoryJpa.getById(id);
 
         assertThat(genre).isNotNull();
         assertThat(genre.getGenre()).isEqualTo("Детектив");
@@ -37,7 +38,7 @@ public class GenreDaoJdbcTest {
     @Test
     @DisplayName("все жанры из бд получены")
     void getAll() {
-        List<Genre> genre = genreDaoJdbc.getAll();
+        List<Genre> genre = genreRepositoryJpa.getAll();
 
         assertThat(genre).isNotNull();
         assertEquals(genre.size(), 2);
@@ -50,8 +51,8 @@ public class GenreDaoJdbcTest {
         String genreName = "Genre3";
         String codeGenre = "G3";
         Genre genre = new Genre(genreId, codeGenre, genreName);
-        genreDaoJdbc.create(genre);
-        List<Genre> genres = genreDaoJdbc.getAll();
+        genreRepositoryJpa.create(genre);
+        List<Genre> genres = genreRepositoryJpa.getAll();
 
 
         assertThat(genres.get(2)).isEqualToIgnoringGivenFields(genre, "id");
@@ -60,8 +61,8 @@ public class GenreDaoJdbcTest {
     @Test
     @DisplayName("удаление жанра из бд корректно")
     void delete() {
-        genreDaoJdbc.deleteById(3);
-        List<Genre> genres  = genreDaoJdbc.getAll();
+        genreRepositoryJpa.deleteById(3);
+        List<Genre> genres  = genreRepositoryJpa.getAll();
 
         assertEquals(genres.size(), 2);
     }

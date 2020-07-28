@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Author;
+import ru.otus.spring.repositories.AuthorRepositoryJpa;
 
 import java.util.List;
 
@@ -15,19 +16,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @JdbcTest
-@Import(AuthorDaoJdbc.class)
+@Import(AuthorRepositoryJpa.class)
 @AutoConfigureTestDatabase(replace = NONE)
 @DisplayName("Класс AuthorDaoJdbc")
-class AuthorDaoJdbcTest {
+class AuthorRepositoryJpaTest {
 
     @Autowired
-    private AuthorDaoJdbc authorDaoJdbc;
+    private AuthorRepositoryJpa authorRepositoryJpa;
 
     @Test
     @DisplayName("получение автора по id из бд корректно")
     void getById() {
         int id = 1;
-        Author author = authorDaoJdbc.getById(id);
+        Author author = authorRepositoryJpa.getById(id);
 
         assertThat(author).isNotNull();
         assertThat(author.getFirstName()).isEqualTo("Author1");
@@ -38,7 +39,7 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("все авторы из бд получены")
     void getAll() {
-        List<Author> authors = authorDaoJdbc.getAll();
+        List<Author> authors = authorRepositoryJpa.getAll();
 
         assertThat(authors).isNotNull();
         assertEquals(authors.size(), 2);
@@ -52,8 +53,8 @@ class AuthorDaoJdbcTest {
         String lastName = "Author3";
         String birthDay = "05.01.1932";
         Author author = new Author(authorId, firstName, lastName, birthDay);
-        authorDaoJdbc.create(author);
-        List<Author> authors = authorDaoJdbc.getAll();
+        authorRepositoryJpa.create(author);
+        List<Author> authors = authorRepositoryJpa.getAll();
 
 
         assertThat(authors.get(2)).isEqualToIgnoringGivenFields(author, "id");
@@ -62,8 +63,8 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("удаление автора из бд корректно")
     void delete() {
-        authorDaoJdbc.deleteById(3);
-        List<Author> authors = authorDaoJdbc.getAll();
+        authorRepositoryJpa.deleteById(3);
+        List<Author> authors = authorRepositoryJpa.getAll();
 
         assertEquals(authors.size(), 2);
     }

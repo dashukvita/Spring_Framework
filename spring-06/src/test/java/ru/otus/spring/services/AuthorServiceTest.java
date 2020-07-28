@@ -3,7 +3,7 @@ package ru.otus.spring.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.dao.impl.AuthorDao;
+import ru.otus.spring.repositories.impl.AuthorRepository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.services.imp.AuthorService;
 
@@ -17,27 +17,27 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 @DisplayName("Класс AuthorService")
 public class AuthorServiceTest {
 
-    private AuthorDao authorDao;
+    private AuthorRepository authorRepository;
     private AuthorService authorService;
 
     @BeforeEach
     void setUp() {
-        authorDao = mock(AuthorDao.class);
-        authorService = new AuthorServiceImpl(authorDao);
+        authorRepository = mock(AuthorRepository.class);
+        authorService = new AuthorServiceImpl(authorRepository);
     }
 
     @Test
     @DisplayName("получение авторов из бд корректно")
     void getAllAuthors() {
         ArrayList<Author> authors = new ArrayList<>();
-        when(authorDao.getAll()).thenReturn(authors);
+        when(authorRepository.getAll()).thenReturn(authors);
 
         List<Author> resultAuthors = authorService.getAllAuthors();
 
         assertThat(resultAuthors).isNotNull();
         assertThat(resultAuthors).isEqualTo(authors);
-        verify(authorDao).getAll();
-        verifyNoMoreInteractions(authorDao);
+        verify(authorRepository).getAll();
+        verifyNoMoreInteractions(authorRepository);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class AuthorServiceTest {
         assertThat(resultAuthor.getFirstName()).isEqualTo(firstName);
         assertThat(resultAuthor.getLastName()).isEqualTo(lastName);
         assertThat(resultAuthor.getBirthday()).isEqualTo(birthday);
-        verify(authorDao).create(any(Author.class));
-        verifyNoMoreInteractions(authorDao);
+        verify(authorRepository).create(any(Author.class));
+        verifyNoMoreInteractions(authorRepository);
     }
 }
