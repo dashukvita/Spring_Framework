@@ -1,7 +1,6 @@
 package ru.otus.spring.repositories;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.domain.Author;
 import ru.otus.spring.repositories.impl.GenreRepository;
 import ru.otus.spring.domain.Genre;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +30,8 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
-    public Optional<Genre> findById(long id) {
-        return Optional.ofNullable(em.find(Genre.class, id));
+    public Genre findById(long id) {
+        return em.find(Genre.class, id);
     }
 
     @Override

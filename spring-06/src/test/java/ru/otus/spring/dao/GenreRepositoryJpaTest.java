@@ -28,7 +28,7 @@ public class GenreRepositoryJpaTest {
     @DisplayName("получение жанра по id из бд корректно")
     void getById() {
         int id = 1;
-        Genre genre = genreRepositoryJpa.getById(id);
+        Genre genre = genreRepositoryJpa.findById(id);
 
         assertThat(genre).isNotNull();
         assertThat(genre.getGenre()).isEqualTo("Детектив");
@@ -38,7 +38,7 @@ public class GenreRepositoryJpaTest {
     @Test
     @DisplayName("все жанры из бд получены")
     void getAll() {
-        List<Genre> genre = genreRepositoryJpa.getAll();
+        List<Genre> genre = genreRepositoryJpa.findAll();
 
         assertThat(genre).isNotNull();
         assertEquals(genre.size(), 2);
@@ -51,8 +51,8 @@ public class GenreRepositoryJpaTest {
         String genreName = "Genre3";
         String codeGenre = "G3";
         Genre genre = new Genre(genreId, codeGenre, genreName);
-        genreRepositoryJpa.create(genre);
-        List<Genre> genres = genreRepositoryJpa.getAll();
+        genreRepositoryJpa.save(genre);
+        List<Genre> genres = genreRepositoryJpa.findAll();
 
 
         assertThat(genres.get(2)).isEqualToIgnoringGivenFields(genre, "id");
@@ -61,8 +61,10 @@ public class GenreRepositoryJpaTest {
     @Test
     @DisplayName("удаление жанра из бд корректно")
     void delete() {
-        genreRepositoryJpa.deleteById(3);
-        List<Genre> genres  = genreRepositoryJpa.getAll();
+        int id = 3;
+        Genre genre = genreRepositoryJpa.findById(id);
+        genreRepositoryJpa.remove(genre);
+        List<Genre> genres  = genreRepositoryJpa.findAll();
 
         assertEquals(genres.size(), 2);
     }

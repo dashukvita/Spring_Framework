@@ -30,13 +30,13 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public void remove(Optional<Author> author) {
+    public void remove(Author author) {
         em.remove(author);
     }
 
     @Override
-    public Optional<Author> findById(long id) {
-        return Optional.ofNullable(em.find(Author.class, id));
+    public Author findById(long id) {
+        return em.find(Author.class, id);
     }
 
     @Override

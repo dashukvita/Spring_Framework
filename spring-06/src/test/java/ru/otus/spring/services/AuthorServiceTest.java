@@ -30,13 +30,13 @@ public class AuthorServiceTest {
     @DisplayName("получение авторов из бд корректно")
     void getAllAuthors() {
         ArrayList<Author> authors = new ArrayList<>();
-        when(authorRepository.getAll()).thenReturn(authors);
+        when(authorRepository.findAll()).thenReturn(authors);
 
-        List<Author> resultAuthors = authorService.getAllAuthors();
+        List<Author> resultAuthors = authorService.findAllAuthors();
 
         assertThat(resultAuthors).isNotNull();
         assertThat(resultAuthors).isEqualTo(authors);
-        verify(authorRepository).getAll();
+        verify(authorRepository).findAll();
         verifyNoMoreInteractions(authorRepository);
     }
 
@@ -48,13 +48,13 @@ public class AuthorServiceTest {
         String lastName = "Author3";
         String birthday = "01.01.2020";
 
-        Author resultAuthor = authorService.createAuthor(authorId, firstName, lastName, birthday);
+        Author resultAuthor = authorService.saveAuthor(authorId, firstName, lastName, birthday);
 
         assertThat(resultAuthor).isNotNull();
         assertThat(resultAuthor.getFirstName()).isEqualTo(firstName);
         assertThat(resultAuthor.getLastName()).isEqualTo(lastName);
         assertThat(resultAuthor.getBirthday()).isEqualTo(birthday);
-        verify(authorRepository).create(any(Author.class));
+        verify(authorRepository).save(any(Author.class));
         verifyNoMoreInteractions(authorRepository);
     }
 }

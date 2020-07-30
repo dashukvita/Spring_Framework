@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.Optional;
+
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
@@ -28,5 +30,4 @@ public class Book {
 
     @Column(name = "bookname", nullable = false, unique = true)
     private String bookName;
-
 }

@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface AuthorService {
 
-    Author createAuthor(long author_id, String firstName, String lastname, String birthday);
+    Author saveAuthor(long author_id, String firstName, String lastname, String birthday);
 
-    Optional<Author> removeAuthor(long id);
+    Author removeAuthor(long id);
 
-    Author getByIdAuthor(long id);
+    Author findByIdAuthor(long id);
 
-    List<Author> getAllAuthors();
+    List<Author> findAllAuthors();
 }

@@ -21,7 +21,7 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Get all books", key = {"get-all-books", "B"})
     public void getAllBooks() {
-        bookService.getAllBooks().forEach(book ->
+        bookService.findAllBooks().forEach(book ->
                 System.out.printf("%s  '%s.'    Автор: %s %s    Жанр: %s\n",
                         book.getId(),
                         book.getBookName(),
@@ -32,7 +32,7 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Get book by author", key = {"get-books-by-author", "BA"})
     public void getBookByAuthor(@ShellOption long authorId) {
-        bookService.getByAuthorBook(authorId).forEach(book ->
+        bookService.findByAuthorBook(authorId).forEach(book ->
                 System.out.printf("%s  '%s.'    Автор: %s %s    Жанр: %s\n",
                         book.getId(),
                         book.getBookName(),
@@ -43,7 +43,7 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Get book by genre", key = {"get-books-by-genre", "BG"})
     public void getBookByGenre(@ShellOption long genreId) {
-        bookService.getByGenreBook(genreId).forEach(book ->
+        bookService.findByGenreBook(genreId).forEach(book ->
                 System.out.printf("%s  '%s.'    Автор: %s %s    Жанр: %s\n",
                         book.getId(),
                         book.getBookName(),
@@ -54,7 +54,7 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Get all authors", key = {"get-all-authors", "A"})
     public void getAllAuthors() {
-        authorService.getAllAuthors().forEach(author ->
+        authorService.findAllAuthors().forEach(author ->
                 System.out.printf("%s  %s %s дата рождения %s\n",
                         author.getId(),
                         author.getFirstName(),
@@ -64,7 +64,7 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Get all genres", key = {"get-all-genre", "G"})
     public void getAllGenre() {
-        genreService.getAllGenres().forEach(genre ->
+        genreService.findAllGenres().forEach(genre ->
                 System.out.printf("%s  %s \n",
                         genre.getId(),
                         genre.getGenre()));
@@ -72,16 +72,16 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Delete book", key = {"delete-book", "DB"})
     public void deleteBook(@ShellOption long id) {
-        Book book = bookService.deleteBook(id);
+        Optional<Book> book = bookService.removeBook(id);
         System.out.printf("Книга удалена: %s, Автор %s\n",
-                book.getBookName(),
-                book.getAuthor().getLastName(),
-                book.getAuthor().getFirstName());
+                book.get().getBookName(),
+                book.get().getAuthor().getLastName(),
+                book.get().getAuthor().getFirstName());
     }
 
     @ShellMethod(value = "Delete author", key = {"delete-author", "DA"})
     public void deleteAuthor(@ShellOption long id) {
-        Author author = authorService.deleteAuthor(id);
+        Author author = authorService.removeAuthor(id);
         System.out.printf("Автор %s %s и его книги удалены из таблицы.\n",
                 author.getFirstName(),
                 author.getLastName());
@@ -89,7 +89,7 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Delete genre", key = {"delete-genre", "DG"})
     public void deleteGenre(@ShellOption long id) {
-        Genre genre = genreService.deleteGenre(id);
+        Genre genre = genreService.removeGenre(id);
         System.out.printf("Жанр %s и книги этого жанра удалены.\n",
                 genre.getGenre());
     }
@@ -99,7 +99,7 @@ public class ApplicationCommands {
                            @ShellOption long idAuthor,
                            @ShellOption long idGenre,
                            @ShellOption String bookName) {
-        Book book = bookService.createBook(id, idAuthor, idGenre, bookName);
+        Book book = bookService.saveBook(id, idAuthor, idGenre, bookName);
         System.out.printf("Книга добавлена: %s, Автор %s\n",
                 book.getBookName(),
                 book.getAuthor().getLastName(),
@@ -111,7 +111,7 @@ public class ApplicationCommands {
                            @ShellOption String firstName,
                            @ShellOption String lastName,
                            @ShellOption String birthDay) {
-        Author author = authorService.createAuthor(author_id, firstName, lastName, birthDay);
+        Author author = authorService.saveAuthor(author_id, firstName, lastName, birthDay);
         System.out.printf("Автор %s %s добавлен\n",
                 author.getFirstName(),
                 author.getLastName());
@@ -121,7 +121,7 @@ public class ApplicationCommands {
     public void createGenre(@ShellOption long genre_id,
                              @ShellOption String codeGenre,
                              @ShellOption String genreName) {
-        Genre genre = genreService.createGenre(genre_id, codeGenre, genreName);
+        Genre genre = genreService.saveGenre(genre_id, codeGenre, genreName);
         System.out.printf("Автор %s %s добавлен\n",
                 genre.getId(),
                 genre.getGenre());
@@ -129,18 +129,18 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Get book", key = {"get-book", "GB"})
     public void getBookById(@ShellOption long id) {
-        Book book = bookService.getByIdBook(id);
+        Optional<Book> book = bookService.findByIdBook(id);
         System.out.printf("%s  '%s.'    Автор: %s %s    Жанр: %s\n",
-                book.getId(),
-                book.getBookName(),
-                book.getAuthor().getFirstName(),
-                book.getAuthor().getLastName(),
-                book.getGenre().getGenre());
+                book.get().getId(),
+                book.get().getBookName(),
+                book.get().getAuthor().getFirstName(),
+                book.get().getAuthor().getLastName(),
+                book.get().getGenre().getGenre());
     }
 
     @ShellMethod(value = "Get author by id", key = {"get-author-id", "GAI"})
     public void getAuthorById(@ShellOption long id) {
-        Author author = authorService.getByIdAuthor(id);
+        Author author = authorService.findByIdAuthor(id);
         System.out.printf("%s  %s %s дата рождения %s\n",
                 author.getId(),
                 author.getFirstName(),
@@ -150,7 +150,7 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Get genre by id", key = {"get-genre-id", "GGI"})
     public void getGenreById(@ShellOption long id) {
-        Genre genre = genreService.getByIdGenre(id);
+        Genre genre = genreService.findByIdGenre(id);
         System.out.printf("%s  %s \n",
                 genre.getId(),
                 genre.getGenre());

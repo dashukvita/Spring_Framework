@@ -16,26 +16,26 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public Author createAuthor(long id, String firstName, String lastname, String birthday){
+    public Author saveAuthor(long id, String firstName, String lastname, String birthday){
         Author author = new Author(id, firstName, lastname, birthday);
         authorRepository.save(author);
         return author;
     }
 
     @Override
-    public Optional<Author> removeAuthor(long id){
-        Optional<Author> author = authorRepository.findById(id);
+    public Author removeAuthor(long id){
+        Author author = authorRepository.findById(id);
         authorRepository.remove(author);
         return author;
     }
 
     @Override
-    public Author getByIdAuthor(long id){
-        return authorRepository.getById(id);
+    public Author findByIdAuthor(long id){
+        return authorRepository.findById(id);
     }
 
     @Override
-    public List<Author> getAllAuthors(){
-        return authorRepository.getAll();
+    public List<Author> findAllAuthors(){
+        return authorRepository.findAll();
     }
 }

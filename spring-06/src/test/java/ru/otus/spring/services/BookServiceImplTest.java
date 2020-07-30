@@ -13,6 +13,7 @@ import ru.otus.spring.services.imp.BookService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -40,14 +41,14 @@ public class BookServiceImplTest {
     void getBook() {
         long id = 3;
         String bookName = "Book3";
-        Book book = new Book(id, authorRepository.getById(1), genreRepository.getById(1),bookName);
-        when(bookRepository.getById(id)).thenReturn(book);
+        Book book = new Book(id, authorRepository.findById(1), genreRepository.findById(1),bookName);
+        when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 
-        Book resultBook = bookService.getByIdBook(id);
+        Optional<Book> resultBook = bookService.findByIdBook(id);
 
         assertThat(resultBook).isNotNull();
         assertThat(resultBook).isEqualTo(book);
-        verify(bookRepository).getById(id);
+        verify(bookRepository).findById(id);
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -55,13 +56,13 @@ public class BookServiceImplTest {
     @DisplayName("получение всех книг из бд корректно")
     void getAllBooks() {
         ArrayList<Book> books = new ArrayList<>();
-        when(bookRepository.getAll()).thenReturn(books);
+        when(bookRepository.findAll()).thenReturn(books);
 
-        List<Book> allBooks = bookService.getAllBooks();
+        List<Book> allBooks = bookService.findAllBooks();
 
         assertThat(allBooks).isNotNull();
         assertThat(allBooks).isEqualTo(books);
-        verify(bookRepository).getAll();
+        verify(bookRepository).findAll();
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -69,17 +70,17 @@ public class BookServiceImplTest {
     @DisplayName("удаление книги из бд корректно")
     void deleteBook() {
         int id = 1;
-        Book book = new Book(id, authorRepository.getById(1), genreRepository.getById(1), "bookName");
+        Book book = new Book(id, authorRepository.findById(1), genreRepository.findById(1), "bookName");
 
-        when(bookRepository.getById(id)).thenReturn(book);
+        when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 
-        Book resultBook = bookService.deleteBook(id);
+        Optional<Book> resultBook = bookService.removeBook(id);
 
         assertThat(resultBook).isNotNull();
-        assertThat(resultBook.getId()).isEqualTo(id);
+        assertThat(resultBook.get().getId()).isEqualTo(id);
 
-        verify(bookRepository).getById(id);
-        verify(bookRepository).deleteById(id);
+        verify(bookRepository).findById(id);
+        verify(bookRepository).remove(Optional.of(book));
     }
 
     @Test
@@ -99,18 +100,18 @@ public class BookServiceImplTest {
         Genre genre = new Genre(genreId, codeGenre, genreName);
         Author author = new Author(authorId, firstName, lastName, birthDay);
 
-        when(authorRepository.getById(author.getId())).thenReturn(author);
-        when(genreRepository.getById(genre.getId())).thenReturn(genre);
+        when(authorRepository.findById(author.getId())).thenReturn(author);
+        when(genreRepository.findById(genre.getId())).thenReturn(genre);
 
-        Book resultBook = bookService.createBook(1, author.getId(), genre.getId(), bookName);
+        Book resultBook = bookService.saveBook(1, author.getId(), genre.getId(), bookName);
 
         assertThat(resultBook).isNotNull();
         assertThat(resultBook.getBookName()).isEqualTo(bookName);
         assertThat(resultBook.getAuthor().getId()).isEqualTo(author.getId());
         assertThat(resultBook.getGenre()).isEqualTo(genre);
-        verify(bookRepository).create(any(Book.class));
-        verify(authorRepository).getById(author.getId());
-        verify(genreRepository).getById(genre.getId());
+        verify(bookRepository).save(any(Book.class));
+        verify(authorRepository).findById(author.getId());
+        verify(genreRepository).findById(genre.getId());
         verifyNoMoreInteractions(bookRepository);
         verifyNoMoreInteractions(authorRepository);
         verifyNoMoreInteractions(genreRepository);

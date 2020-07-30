@@ -3,14 +3,15 @@ package ru.otus.spring.services.imp;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenreService {
 
-    Genre createGenre(long genre_id, String codegenre, String genreName);
+    Genre saveGenre(long genre_id, String codegenre, String genreName);
 
-    Genre deleteGenre(long id);
+    Genre removeGenre(long id);
 
-    Genre getByIdGenre(long id);
+    Genre findByIdGenre(long id);
 
-    List<Genre> getAllGenres();
+    List<Genre> findAllGenres();
 }

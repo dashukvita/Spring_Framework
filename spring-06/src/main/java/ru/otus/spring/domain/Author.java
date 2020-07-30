@@ -25,7 +25,7 @@ public class Author {
     @Column(name = "birthday")
     private String birthday;
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="author_id")
-    private List<Book> books;
+//    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name="author_id")
+//    private List<Book> books;
 }

@@ -3,18 +3,19 @@ package ru.otus.spring.services.imp;
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
 
-    Book createBook(long id, long author_id, long genre_id, String bookname);
+    Book saveBook(long id, long author_id, long genre_id, String bookname);
 
-    Book deleteBook(long id);
+    Optional<Book> removeBook(long id);
 
-    Book getByIdBook(long id);
+    Optional<Book> findByIdBook(long id);
 
-    List<Book> getByGenreBook(long genreId);
+    List<Book> findByGenreBook(long genreId);
 
-    List<Book> getByAuthorBook(long authorId);
+    List<Book> findByAuthorBook(long authorId);
 
-    List<Book> getAllBooks();
+    List<Book> findAllBooks();
 }

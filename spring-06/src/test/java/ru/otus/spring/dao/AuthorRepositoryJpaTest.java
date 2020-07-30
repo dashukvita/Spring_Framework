@@ -1,5 +1,6 @@
 package ru.otus.spring.dao;
 
+import org.h2.tools.Console;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ class AuthorRepositoryJpaTest {
     @DisplayName("получение автора по id из бд корректно")
     void getById() {
         int id = 1;
-        Author author = authorRepositoryJpa.getById(id);
+        Author author = authorRepositoryJpa.findById(id);
 
         assertThat(author).isNotNull();
         assertThat(author.getFirstName()).isEqualTo("Author1");
@@ -39,7 +40,7 @@ class AuthorRepositoryJpaTest {
     @Test
     @DisplayName("все авторы из бд получены")
     void getAll() {
-        List<Author> authors = authorRepositoryJpa.getAll();
+        List<Author> authors = authorRepositoryJpa.findAll();
 
         assertThat(authors).isNotNull();
         assertEquals(authors.size(), 2);
@@ -53,8 +54,8 @@ class AuthorRepositoryJpaTest {
         String lastName = "Author3";
         String birthDay = "05.01.1932";
         Author author = new Author(authorId, firstName, lastName, birthDay);
-        authorRepositoryJpa.create(author);
-        List<Author> authors = authorRepositoryJpa.getAll();
+        authorRepositoryJpa.save(author);
+        List<Author> authors = authorRepositoryJpa.findAll();
 
 
         assertThat(authors.get(2)).isEqualToIgnoringGivenFields(author, "id");
@@ -63,8 +64,10 @@ class AuthorRepositoryJpaTest {
     @Test
     @DisplayName("удаление автора из бд корректно")
     void delete() {
-        authorRepositoryJpa.deleteById(3);
-        List<Author> authors = authorRepositoryJpa.getAll();
+        int id = 3;
+        Author author= authorRepositoryJpa.findById(id);
+        authorRepositoryJpa.remove(author);
+        List<Author> authors = authorRepositoryJpa.findAll();
 
         assertEquals(authors.size(), 2);
     }

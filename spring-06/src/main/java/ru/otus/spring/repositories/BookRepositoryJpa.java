@@ -33,7 +33,7 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public void remove(Book book) {
+    public void remove(Optional<Book> book) {
         em.remove(book);
     }
 

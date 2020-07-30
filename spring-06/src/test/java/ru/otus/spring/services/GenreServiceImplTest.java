@@ -31,13 +31,13 @@ public class GenreServiceImplTest {
     @DisplayName("получение жанра из бд корректно")
     void getAllAuthors() {
         ArrayList<Genre> genres = new ArrayList<>();
-        when(genreRepository.getAll()).thenReturn(genres);
+        when(genreRepository.findAll()).thenReturn(genres);
 
-        List<Genre> resultAuthors = genreService.getAllGenres();
+        List<Genre> resultAuthors = genreService.findAllGenres();
 
         assertThat(resultAuthors).isNotNull();
         assertThat(resultAuthors).isEqualTo(genres);
-        verify(genreRepository).getAll();
+        verify(genreRepository).findAll();
         verifyNoMoreInteractions(genreRepository);
     }
 
@@ -48,12 +48,12 @@ public class GenreServiceImplTest {
         String codeGenre = "G3";
         String genreName = "Genre3";
 
-        Genre resultGenre = genreService.createGenre(genreId, codeGenre, genreName);
+        Genre resultGenre = genreService.saveGenre(genreId, codeGenre, genreName);
 
         assertThat(resultGenre).isNotNull();
         assertThat(resultGenre.getCodeGenre()).isEqualTo(codeGenre);
         assertThat(resultGenre.getGenre()).isEqualTo(genreName);
-        verify(genreRepository).create(any(Genre.class));
+        verify(genreRepository).save(any(Genre.class));
         verifyNoMoreInteractions(genreRepository);
     }
 }

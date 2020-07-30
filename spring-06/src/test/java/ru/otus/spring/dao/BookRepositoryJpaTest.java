@@ -12,6 +12,7 @@ import ru.otus.spring.repositories.BookRepositoryJpa;
 import ru.otus.spring.repositories.GenreRepositoryJpa;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,18 +35,18 @@ public class BookRepositoryJpaTest {
     @DisplayName("получение книги по id из бд корректно")
     void getById() {
         int id = 1;
-        Book book = bookRepositoryJpa.getById(id);
+        Optional<Book> book = bookRepositoryJpa.findById(id);
 
         assertThat(book).isNotNull();
-        assertThat(book.getBookName()).isEqualTo("Book1");
-        assertThat(book.getAuthor().getFirstName()).isEqualTo("Author1");
-        assertThat(book.getGenre().getGenre()).isEqualTo("Детектив");
+        assertThat(book.get().getBookName()).isEqualTo("Book1");
+        assertThat(book.get().getAuthor().getFirstName()).isEqualTo("Author1");
+        assertThat(book.get().getGenre().getGenre()).isEqualTo("Детектив");
     }
 
     @Test
     @DisplayName("все книги из бд получены")
     void getAll() {
-        List<Book> book = bookRepositoryJpa.getAll();
+        List<Book> book = bookRepositoryJpa.findAll();
 
         assertThat(book).isNotNull();
         assertEquals(book.size(), 2);
@@ -56,10 +57,10 @@ public class BookRepositoryJpaTest {
     void create() {
         long id = 3;
         String bookName = "Book3";
-        Book book = new Book(id, authorDao.getById(1), genreDao.getById(1),bookName);
+        Book book = new Book(id, authorDao.findById(1), genreDao.findById(1),bookName);
 
-        bookRepositoryJpa.create(book);
-        List<Book> books = bookRepositoryJpa.getAll();
+        bookRepositoryJpa.save(book);
+        List<Book> books = bookRepositoryJpa.findAll();
 
         assertEquals(books.get(2).getAuthor().getLastName(), "Author1");
         assertEquals(books.get(2).getGenre().getGenre(), "Детектив");
@@ -68,8 +69,10 @@ public class BookRepositoryJpaTest {
     @Test
     @DisplayName("удаление книги из бд корректно")
     void delete() {
-        bookRepositoryJpa.deleteById(3);
-        List<Book> books = bookRepositoryJpa.getAll();
+        int id = 3;
+        Optional<Book> book = bookRepositoryJpa.findById(id);
+        bookRepositoryJpa.remove(book);
+        List<Book> books = bookRepositoryJpa.findAll();
 
         assertEquals(books.size(), 2);
     }
