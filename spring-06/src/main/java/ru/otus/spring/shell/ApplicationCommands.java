@@ -11,6 +11,8 @@ import ru.otus.spring.services.imp.AuthorService;
 import ru.otus.spring.services.imp.BookService;
 import ru.otus.spring.services.imp.GenreService;
 
+import java.util.Optional;
+
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommands {
@@ -122,7 +124,7 @@ public class ApplicationCommands {
                              @ShellOption String codeGenre,
                              @ShellOption String genreName) {
         Genre genre = genreService.saveGenre(genre_id, codeGenre, genreName);
-        System.out.printf("Автор %s %s добавлен\n",
+        System.out.printf("Жанр %s %s добавлен\n",
                 genre.getId(),
                 genre.getGenre());
     }
