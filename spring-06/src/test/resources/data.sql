@@ -6,3 +6,6 @@ insert into genres (id, codeGenre, genre) values (2, 'БП', 'Роман');
 
 insert into books (id, author_id, genre_id, bookName) values (1, 1, 1, 'Book1');
 insert into books (id, author_id, genre_id, bookName) values (2, 2, 2, 'Book2');
+
+insert into comments (id, message, book_id) values (1, 'Comments1', 1);
+insert into comments (id, message, book_id) values (2, 'Comments2', 2);

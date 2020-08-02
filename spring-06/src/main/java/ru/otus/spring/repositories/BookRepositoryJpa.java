@@ -2,6 +2,7 @@ package ru.otus.spring.repositories;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repositories.impl.BookRepository;
 import ru.otus.spring.domain.Book;
@@ -12,8 +13,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
-@NamedEntityGraph(name = "author-entity-graph",
-        attributeNodes = {@NamedAttributeNode("author")})
+
 @RequiredArgsConstructor
 @Transactional
 @Repository
@@ -38,8 +38,8 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findById(long id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+    public Book findById(long id) {
+        return em.find(Book.class, id);
     }
 
     @Override

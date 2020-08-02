@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.services.imp.AuthorService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +15,12 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public Author saveAuthor(long id, String firstName, String lastname, String birthday){
-        Author author = new Author(id, firstName, lastname, birthday);
+    public Author saveAuthor(String firstName, String lastname, String birthday){
+        Author author = new Author();
+        author.setFirstName(firstName);
+        author.setLastName(lastname);
+        author.setBirthday(birthday);
+
         authorRepository.save(author);
         return author;
     }

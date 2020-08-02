@@ -13,7 +13,7 @@ public interface BookRepository {
 
     void remove(Optional<Book> book);
 
-    Optional<Book> findById(long id);
+    Book findById(long id);
 
     List<Book> findByGenre(Genre genre);
 

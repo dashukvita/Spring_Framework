@@ -32,7 +32,7 @@ public class GenreRepositoryJpaTest {
 //        Genre genre = genreRepositoryJpa.findById(id);
 //
 //        assertThat(genre).isNotNull();
-//        assertThat(genre.getGenre()).isEqualTo("Детектив");
+//        assertThat(genre.getGenreName()).isEqualTo("Детектив");
 //        assertThat(genre.getCodeGenre()).isEqualTo("ХЛ");
 //    }
 //

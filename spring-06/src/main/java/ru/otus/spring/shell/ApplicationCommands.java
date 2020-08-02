@@ -6,9 +6,11 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.services.imp.AuthorService;
 import ru.otus.spring.services.imp.BookService;
+import ru.otus.spring.services.imp.CommentService;
 import ru.otus.spring.services.imp.GenreService;
 
 import java.util.Optional;
@@ -20,6 +22,7 @@ public class ApplicationCommands {
     private final AuthorService authorService;
     private final GenreService genreService;
     private final BookService bookService;
+    private final CommentService commentService;
 
     @ShellMethod(value = "Get all books", key = {"get-all-books", "B"})
     public void getAllBooks() {
@@ -29,7 +32,7 @@ public class ApplicationCommands {
                         book.getBookName(),
                         book.getAuthor().getFirstName(),
                         book.getAuthor().getLastName(),
-                        book.getGenre().getGenre()));
+                        book.getGenre().getGenreName()));
     }
 
     @ShellMethod(value = "Get book by author", key = {"get-books-by-author", "BA"})
@@ -40,7 +43,7 @@ public class ApplicationCommands {
                         book.getBookName(),
                         book.getAuthor().getFirstName(),
                         book.getAuthor().getLastName(),
-                        book.getGenre().getGenre()));
+                        book.getGenre().getGenreName()));
     }
 
     @ShellMethod(value = "Get book by genre", key = {"get-books-by-genre", "BG"})
@@ -51,7 +54,7 @@ public class ApplicationCommands {
                         book.getBookName(),
                         book.getAuthor().getFirstName(),
                         book.getAuthor().getLastName(),
-                        book.getGenre().getGenre()));
+                        book.getGenre().getGenreName()));
     }
 
     @ShellMethod(value = "Get all authors", key = {"get-all-authors", "A"})
@@ -65,20 +68,28 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "Get all genres", key = {"get-all-genre", "G"})
-    public void getAllGenre() {
+    public void getAllGenres() {
         genreService.findAllGenres().forEach(genre ->
                 System.out.printf("%s  %s \n",
                         genre.getId(),
-                        genre.getGenre()));
+                        genre.getGenreName()));
+    }
+
+    @ShellMethod(value = "Get all comments", key = {"get-all-comments", "C"})
+    public void getAllComments() {
+        commentService.findAllComments().forEach(comment ->
+                System.out.printf("%s  %s \n",
+                        comment.getId(),
+                        comment.getMessage()));
     }
 
     @ShellMethod(value = "Delete book", key = {"delete-book", "DB"})
     public void deleteBook(@ShellOption long id) {
-        Optional<Book> book = bookService.removeBook(id);
+        Book book = bookService.removeBook(id);
         System.out.printf("Книга удалена: %s, Автор %s\n",
-                book.get().getBookName(),
-                book.get().getAuthor().getLastName(),
-                book.get().getAuthor().getFirstName());
+                book.getBookName(),
+                book.getAuthor().getLastName(),
+                book.getAuthor().getFirstName());
     }
 
     @ShellMethod(value = "Delete author", key = {"delete-author", "DA"})
@@ -93,15 +104,21 @@ public class ApplicationCommands {
     public void deleteGenre(@ShellOption long id) {
         Genre genre = genreService.removeGenre(id);
         System.out.printf("Жанр %s и книги этого жанра удалены.\n",
-                genre.getGenre());
+                genre.getGenreName());
+    }
+
+    @ShellMethod(value = "Delete comment", key = {"delete-comment", "DC"})
+    public void deleteComment(@ShellOption long id) {
+        Comment comment = commentService.removeComment(id);
+        System.out.printf("Комментарий %s' удален.\n",
+                comment.getMessage());
     }
 
     @ShellMethod(value = "Create book", key = {"create-book", "CB"})
-    public void createBook(@ShellOption long id,
-                           @ShellOption long idAuthor,
+    public void createBook(@ShellOption long idAuthor,
                            @ShellOption long idGenre,
                            @ShellOption String bookName) {
-        Book book = bookService.saveBook(id, idAuthor, idGenre, bookName);
+        Book book = bookService.saveBook(idAuthor, idGenre, bookName);
         System.out.printf("Книга добавлена: %s, Автор %s\n",
                 book.getBookName(),
                 book.getAuthor().getLastName(),
@@ -109,35 +126,41 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "Create author", key = {"create-author", "CA"})
-    public void createAuthor(@ShellOption long author_id,
-                           @ShellOption String firstName,
+    public void createAuthor(@ShellOption String firstName,
                            @ShellOption String lastName,
                            @ShellOption String birthDay) {
-        Author author = authorService.saveAuthor(author_id, firstName, lastName, birthDay);
+        Author author = authorService.saveAuthor(firstName, lastName, birthDay);
         System.out.printf("Автор %s %s добавлен\n",
                 author.getFirstName(),
                 author.getLastName());
     }
 
     @ShellMethod(value = "Create genre", key = {"create-genre", "CG"})
-    public void createGenre(@ShellOption long genre_id,
-                             @ShellOption String codeGenre,
+    public void createGenre(@ShellOption String codeGenre,
                              @ShellOption String genreName) {
-        Genre genre = genreService.saveGenre(genre_id, codeGenre, genreName);
+        Genre genre = genreService.saveGenre(codeGenre, genreName);
         System.out.printf("Жанр %s %s добавлен\n",
                 genre.getId(),
-                genre.getGenre());
+                genre.getGenreName());
+    }
+
+    @ShellMethod(value = "Create comment", key = {"create-comment", "CC"})
+    public void createComment(@ShellOption String message,
+                            @ShellOption long book_id) {
+        Comment comment = commentService.saveComment(message, book_id);
+        System.out.printf("Комментарий %s добавлен\n",
+                comment.getMessage());
     }
 
     @ShellMethod(value = "Get book", key = {"get-book", "GB"})
     public void getBookById(@ShellOption long id) {
-        Optional<Book> book = bookService.findByIdBook(id);
+        Book book = bookService.findByIdBook(id);
         System.out.printf("%s  '%s.'    Автор: %s %s    Жанр: %s\n",
-                book.get().getId(),
-                book.get().getBookName(),
-                book.get().getAuthor().getFirstName(),
-                book.get().getAuthor().getLastName(),
-                book.get().getGenre().getGenre());
+                book.getId(),
+                book.getBookName(),
+                book.getAuthor().getFirstName(),
+                book.getAuthor().getLastName(),
+                book.getGenre().getGenreName());
     }
 
     @ShellMethod(value = "Get author by id", key = {"get-author-id", "GAI"})
@@ -151,11 +174,19 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "Get genre by id", key = {"get-genre-id", "GGI"})
-    public void getGenreById(@ShellOption long id) {
+    public void getGenreNameById(@ShellOption long id) {
         Genre genre = genreService.findByIdGenre(id);
         System.out.printf("%s  %s \n",
                 genre.getId(),
-                genre.getGenre());
+                genre.getGenreName());
+    }
+
+    @ShellMethod(value = "Get comment by id", key = {"get-comment-id", "GCI"})
+    public void getCommentNameById(@ShellOption long id) {
+        Comment comment = commentService.findByIdComment(id);
+        System.out.printf("%s  %s \n",
+                comment.getId(),
+                comment.getMessage());
     }
 
 }

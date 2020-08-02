@@ -14,16 +14,13 @@ public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private long id;
 
     @Column(name = "codegenre", nullable = false, unique = true)
     private String codeGenre;
 
     @Column(name = "genre", nullable = false, unique = true)
-    private String genre;
-
-//    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name="genre_id")
-//    private List<Book> books;
+    private String genreName;
 
 }

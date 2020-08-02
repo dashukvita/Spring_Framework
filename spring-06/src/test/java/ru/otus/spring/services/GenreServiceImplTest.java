@@ -52,7 +52,7 @@ public class GenreServiceImplTest {
 //
 //        assertThat(resultGenre).isNotNull();
 //        assertThat(resultGenre.getCodeGenre()).isEqualTo(codeGenre);
-//        assertThat(resultGenre.getGenre()).isEqualTo(genreName);
+//        assertThat(resultGenre.getGenreName()).isEqualTo(genreName);
 //        verify(genreRepository).save(any(Genre.class));
 //        verifyNoMoreInteractions(genreRepository);
 //    }

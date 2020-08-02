@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.services.imp.GenreService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +15,11 @@ public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
 
     @Override
-    public Genre saveGenre(long id, String codegenre, String genreName){
-        Genre genre = new Genre(id, codegenre, genreName);
+    public Genre saveGenre(String codegenre, String genreName){
+        Genre genre = new Genre();
+        genre.setCodeGenre(codegenre);
+        genre.setGenreName(genreName);
+
         genreRepository.save(genre);
         return genre;
     }

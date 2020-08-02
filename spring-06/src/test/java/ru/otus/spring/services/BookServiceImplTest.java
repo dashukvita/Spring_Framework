@@ -108,7 +108,7 @@ public class BookServiceImplTest {
 //        assertThat(resultBook).isNotNull();
 //        assertThat(resultBook.getBookName()).isEqualTo(bookName);
 //        assertThat(resultBook.getAuthor().getId()).isEqualTo(author.getId());
-//        assertThat(resultBook.getGenre()).isEqualTo(genre);
+//        assertThat(resultBook.getGenreName()).isEqualTo(genre);
 //        verify(bookRepository).save(any(Book.class));
 //        verify(authorRepository).findById(author.getId());
 //        verify(genreRepository).findById(genre.getId());

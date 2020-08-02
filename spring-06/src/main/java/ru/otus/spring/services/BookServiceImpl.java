@@ -22,23 +22,25 @@ public class BookServiceImpl implements BookService {
     private final GenreRepository genreRepository;
 
     @Override
-    public Book saveBook(long id, long authorId, long genreId, String bookname){
-        Author author = authorRepository.findById(authorId);
-        Genre genre = genreRepository.findById(genreId);
-        Book book = new Book(id, author, genre, bookname);
+    public Book saveBook(long authorId, long genreId, String bookname){
+        Book book = new Book();
+        book.setAuthor(authorRepository.findById(authorId));
+        book.setGenre(genreRepository.findById(genreId));
+        book.setBookName(bookname);
+
         bookRepository.save(book);
         return book;
     }
 
     @Override
-    public Optional<Book> removeBook(long id){
-        Optional<Book> book = bookRepository.findById(id);
-        bookRepository.remove(book);
+    public Book removeBook(long id){
+        Book book = bookRepository.findById(id);
+        bookRepository.remove(Optional.ofNullable(book));
         return book;
     }
 
     @Override
-    public Optional<Book> findByIdBook(long id){
+    public Book findByIdBook(long id){
         return bookRepository.findById(id);
     }
 

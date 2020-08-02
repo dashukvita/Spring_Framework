@@ -1,3 +1,4 @@
+drop table if exists comments;
 drop table if exists books;
 drop table if exists authors;
 drop table if exists genres;
@@ -25,5 +26,13 @@ create table books
     genre_id bigint references genres(id) on delete cascade,
     author_id bigint references authors(id) on delete cascade,
     bookName character varying(200) not null,
+    primary key (id)
+);
+
+create table comments
+(
+    id bigserial not null,
+    message character varying(255) not null,
+    book_id bigint references books(id) on delete cascade,
     primary key (id)
 );

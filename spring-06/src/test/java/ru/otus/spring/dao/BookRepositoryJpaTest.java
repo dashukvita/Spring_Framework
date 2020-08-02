@@ -41,7 +41,7 @@ public class BookRepositoryJpaTest {
 //        assertThat(book).isNotNull();
 //        assertThat(book.get().getBookName()).isEqualTo("Book1");
 //        assertThat(book.get().getAuthor().getFirstName()).isEqualTo("Author1");
-//        assertThat(book.get().getGenre().getGenre()).isEqualTo("Детектив");
+//        assertThat(book.get().getGenreName().getGenreName()).isEqualTo("Детектив");
 //    }
 //
 //    @Test
@@ -64,7 +64,7 @@ public class BookRepositoryJpaTest {
 //        List<Book> books = bookRepositoryJpa.findAll();
 //
 //        assertEquals(books.get(2).getAuthor().getLastName(), "Author1");
-//        assertEquals(books.get(2).getGenre().getGenre(), "Детектив");
+//        assertEquals(books.get(2).getGenreName().getGenreName(), "Детектив");
 //    }
 //
 //    @Test

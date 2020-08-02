@@ -36,6 +36,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public Author findById(long id) {
+        System.out.println(em.find(Author.class, id));
         return em.find(Author.class, id);
     }
 

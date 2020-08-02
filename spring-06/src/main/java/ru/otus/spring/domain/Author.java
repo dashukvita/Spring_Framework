@@ -3,7 +3,6 @@ package ru.otus.spring.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +13,7 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private long id;
 
     @Column(name = "firstname", nullable = false)
@@ -25,7 +25,4 @@ public class Author {
     @Column(name = "birthday")
     private String birthday;
 
-//    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name="author_id")
-//    private List<Book> books;
 }
