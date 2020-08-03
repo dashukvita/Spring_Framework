@@ -1,14 +1,20 @@
 package ru.otus.spring.domain;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "authors")
+@Accessors(chain = true)
 public class Author {
 
     @Id
@@ -24,5 +30,8 @@ public class Author {
 
     @Column(name = "birthday")
     private String birthday;
+
+//    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = EAGER)
+//    private List<Book> books = new ArrayList<>();
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.services.imp.AuthorService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,9 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author removeAuthor(long id){
         Author author = authorRepository.findById(id);
-        authorRepository.remove(author);
+        if(author != null){
+            authorRepository.remove(author);
+        }
         return author;
     }
 

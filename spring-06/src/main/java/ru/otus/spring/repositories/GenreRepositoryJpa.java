@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,11 @@ public class GenreRepositoryJpa implements GenreRepository {
 
     @Override
     public void remove(Genre genre) {
-        em.remove(genre);
+        Query query = em.createQuery("delete from Book b where b.genre.id = :genre_id");
+        query.setParameter("genre_id", genre.getId());
+        query.executeUpdate();
+
+        em.remove(em.contains(genre) ? genre : em.merge(genre));
     }
 
     @Override

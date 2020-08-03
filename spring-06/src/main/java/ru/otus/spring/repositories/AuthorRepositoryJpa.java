@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,12 +32,15 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public void remove(Author author) {
-        em.remove(author);
+        Query query = em.createQuery("delete from Book b where b.author.id = :author_id");
+        query.setParameter("author_id", author.getId());
+        query.executeUpdate();
+
+        em.remove(em.contains(author) ? author : em.merge(author));
     }
 
     @Override
     public Author findById(long id) {
-        System.out.println(em.find(Author.class, id));
         return em.find(Author.class, id);
     }
 

@@ -2,7 +2,6 @@ package ru.otus.spring.repositories;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
-import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repositories.impl.BookRepository;
 import ru.otus.spring.domain.Book;
@@ -54,12 +53,12 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public List<Book> findByAuthor(Author author) {
+    public List<Book> findByAuthor(Optional<Author> author) {
         TypedQuery<Book> query = em.createQuery("select b from Book b " +
                 "join fetch b.author " +
                 "join fetch b.genre " +
                 "where b.author.id = :author_id", Book.class);
-        query.setParameter("author_id", author.getId());
+        query.setParameter("author_id", author.get().getId());
 
         return query.getResultList();
     }

@@ -22,14 +22,15 @@ public class BookServiceImpl implements BookService {
     private final GenreRepository genreRepository;
 
     @Override
-    public Book saveBook(long authorId, long genreId, String bookname){
+    public Book saveBook(long genreId, long authorId, String bookname){
+        Author author = authorRepository.findById(authorId);
         Book book = new Book();
-        book.setAuthor(authorRepository.findById(authorId));
-        book.setGenre(genreRepository.findById(genreId));
-        book.setBookName(bookname);
-
-        bookRepository.save(book);
-        return book;
+//        book.setAuthor(authorRepository.findById(authorId));
+//        book.setGenre(genreRepository.findById(genreId));
+//        book.setBookName(bookname);
+//
+//        bookRepository.save(book);
+        return null;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findByAuthorBook(long authorId){
         Author author = authorRepository.findById(authorId);
-        return bookRepository.findByAuthor(author);
+        return bookRepository.findByAuthor(Optional.ofNullable(author));
     }
 
     @Override

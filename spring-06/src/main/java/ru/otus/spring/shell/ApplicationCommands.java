@@ -24,6 +24,45 @@ public class ApplicationCommands {
     private final BookService bookService;
     private final CommentService commentService;
 
+    @ShellMethod(value = "Get all authors", key = {"get-all-authors", "A"})
+    public void getAllAuthors() {
+        authorService.findAllAuthors().forEach(author ->
+                System.out.printf("%s  %s %s дата рождения %s\n",
+                        author.getId(),
+                        author.getFirstName(),
+                        author.getLastName(),
+                        author.getBirthday()));
+    }
+
+    @ShellMethod(value = "Create author", key = {"create-author", "CA"})
+    public void createAuthor(@ShellOption String firstName,
+                             @ShellOption String lastName,
+                             @ShellOption String birthDay) {
+        Author author = authorService.saveAuthor(firstName, lastName, birthDay);
+        System.out.printf("Автор %s %s добавлен\n",
+                author.getFirstName(),
+                author.getLastName());
+    }
+
+    @ShellMethod(value = "Get author by id", key = {"get-author-id", "GAI"})
+    public void getAuthorById(@ShellOption long id) {
+        Optional<Author> author = Optional.ofNullable(authorService.findByIdAuthor(id));
+        System.out.printf("%s  %s %s дата рождения %s\n",
+                author.get().getId(),
+                author.get().getFirstName(),
+                author.get().getLastName(),
+                author.get().getBirthday());
+    }
+
+    @ShellMethod(value = "Delete author", key = {"delete-author", "DA"})
+    public void deleteAuthor(@ShellOption long id) {
+        Optional<Author> author = Optional.ofNullable(authorService.removeAuthor(id));
+        System.out.printf("Автор %s %s и его книги удалены из таблицы.\n",
+                author.get().getFirstName(),
+                author.get().getLastName());
+    }
+
+
     @ShellMethod(value = "Get all books", key = {"get-all-books", "B"})
     public void getAllBooks() {
         bookService.findAllBooks().forEach(book ->
@@ -57,16 +96,6 @@ public class ApplicationCommands {
                         book.getGenre().getGenreName()));
     }
 
-    @ShellMethod(value = "Get all authors", key = {"get-all-authors", "A"})
-    public void getAllAuthors() {
-        authorService.findAllAuthors().forEach(author ->
-                System.out.printf("%s  %s %s дата рождения %s\n",
-                        author.getId(),
-                        author.getFirstName(),
-                        author.getLastName(),
-                        author.getBirthday()));
-    }
-
     @ShellMethod(value = "Get all genres", key = {"get-all-genre", "G"})
     public void getAllGenres() {
         genreService.findAllGenres().forEach(genre ->
@@ -92,14 +121,6 @@ public class ApplicationCommands {
                 book.getAuthor().getFirstName());
     }
 
-    @ShellMethod(value = "Delete author", key = {"delete-author", "DA"})
-    public void deleteAuthor(@ShellOption long id) {
-        Author author = authorService.removeAuthor(id);
-        System.out.printf("Автор %s %s и его книги удалены из таблицы.\n",
-                author.getFirstName(),
-                author.getLastName());
-    }
-
     @ShellMethod(value = "Delete genre", key = {"delete-genre", "DG"})
     public void deleteGenre(@ShellOption long id) {
         Genre genre = genreService.removeGenre(id);
@@ -115,24 +136,14 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "Create book", key = {"create-book", "CB"})
-    public void createBook(@ShellOption long idAuthor,
-                           @ShellOption long idGenre,
+    public void createBook(@ShellOption long idGenre,
+                           @ShellOption long idAuthor,
                            @ShellOption String bookName) {
-        Book book = bookService.saveBook(idAuthor, idGenre, bookName);
+        Book book = bookService.saveBook(idGenre, idAuthor, bookName);
         System.out.printf("Книга добавлена: %s, Автор %s\n",
                 book.getBookName(),
                 book.getAuthor().getLastName(),
                 book.getAuthor().getFirstName());
-    }
-
-    @ShellMethod(value = "Create author", key = {"create-author", "CA"})
-    public void createAuthor(@ShellOption String firstName,
-                           @ShellOption String lastName,
-                           @ShellOption String birthDay) {
-        Author author = authorService.saveAuthor(firstName, lastName, birthDay);
-        System.out.printf("Автор %s %s добавлен\n",
-                author.getFirstName(),
-                author.getLastName());
     }
 
     @ShellMethod(value = "Create genre", key = {"create-genre", "CG"})
@@ -161,16 +172,6 @@ public class ApplicationCommands {
                 book.getAuthor().getFirstName(),
                 book.getAuthor().getLastName(),
                 book.getGenre().getGenreName());
-    }
-
-    @ShellMethod(value = "Get author by id", key = {"get-author-id", "GAI"})
-    public void getAuthorById(@ShellOption long id) {
-        Author author = authorService.findByIdAuthor(id);
-        System.out.printf("%s  %s %s дата рождения %s\n",
-                author.getId(),
-                author.getFirstName(),
-                author.getLastName(),
-                author.getBirthday());
     }
 
     @ShellMethod(value = "Get genre by id", key = {"get-genre-id", "GGI"})

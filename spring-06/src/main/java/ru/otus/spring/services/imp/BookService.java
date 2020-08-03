@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookService {
 
-    Book saveBook(long author_id, long genre_id, String bookname);
+    Book saveBook(long genre_id, long author_id, String bookname);
 
     Book removeBook(long id);
 

@@ -1,6 +1,7 @@
 package ru.otus.spring.domain;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -13,12 +14,11 @@ import static javax.persistence.FetchType.EAGER;
 
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @NamedEntityGraph(name = "author-entity-graph",
         attributeNodes = {@NamedAttributeNode("author")}
 )
+@Accessors(chain = true)
 @Table(name = "books")
 public class Book {
 
@@ -27,18 +27,18 @@ public class Book {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne(cascade = ALL, fetch = EAGER)
+    @ManyToOne(targetEntity=Author.class, cascade = CascadeType.ALL, fetch = EAGER)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToOne(cascade = ALL, fetch = EAGER)
+    @ManyToOne(targetEntity=Genre.class, cascade = CascadeType.ALL, fetch = EAGER)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
     @Column(name = "bookname", nullable = false, unique = true)
     private String bookName;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = EAGER)
+//    private List<Comment> comments = new ArrayList<>();
 
 }

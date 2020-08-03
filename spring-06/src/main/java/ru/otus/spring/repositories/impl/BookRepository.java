@@ -17,7 +17,7 @@ public interface BookRepository {
 
     List<Book> findByGenre(Genre genre);
 
-    List<Book> findByAuthor(Author author);
+    List<Book> findByAuthor(Optional<Author> author);
 
     List<Book> findAll();
 }
