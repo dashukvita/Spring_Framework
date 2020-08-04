@@ -31,17 +31,17 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
+    public Author findById(long id) {
+        return em.find(Author.class, id);
+    }
+
+    @Override
     public void remove(Author author) {
         Query query = em.createQuery("delete from Book b where b.author.id = :author_id");
         query.setParameter("author_id", author.getId());
         query.executeUpdate();
 
         em.remove(em.contains(author) ? author : em.merge(author));
-    }
-
-    @Override
-    public Author findById(long id) {
-        return em.find(Author.class, id);
     }
 
     @Override

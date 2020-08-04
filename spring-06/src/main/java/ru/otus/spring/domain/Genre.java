@@ -28,7 +28,4 @@ public class Genre {
     @Column(name = "genre", nullable = false, unique = true)
     private String genreName;
 
-    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, fetch = EAGER)
-    private List<Book> books = new ArrayList<>();
-
 }

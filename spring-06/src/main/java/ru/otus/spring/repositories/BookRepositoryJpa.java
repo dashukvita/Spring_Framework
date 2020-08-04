@@ -32,8 +32,12 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public void remove(Optional<Book> book) {
-        em.remove(book);
+    public void remove(Book book) {
+        Query query = em.createQuery("delete from Comment c where c.book.id = :book_id");
+        query.setParameter("book_id", book.getId());
+        query.executeUpdate();
+
+        em.remove(em.contains(book) ? book : em.merge(book));
     }
 
     @Override
@@ -44,8 +48,8 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     public List<Book> findByGenre(Genre genre) {
         TypedQuery<Book> query = em.createQuery("select b from Book b " +
-                "join fetch b.author " +
                 "join fetch b.genre " +
+                "join fetch b.author " +
                 "where b.genre.id = :genre_id", Book.class);
         query.setParameter("genre_id", genre.getId());
 
@@ -53,20 +57,20 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public List<Book> findByAuthor(Optional<Author> author) {
+    public List<Book> findByAuthor(Author author) {
         TypedQuery<Book> query = em.createQuery("select b from Book b " +
-                "join fetch b.author " +
                 "join fetch b.genre " +
+                "join fetch b.author " +
                 "where b.author.id = :author_id", Book.class);
-        query.setParameter("author_id", author.get().getId());
+        query.setParameter("author_id", author.getId());
 
         return query.getResultList();
     }
 
     @Override
     public List<Book> findAll() {
-        EntityGraph<?> entityGraph = em.getEntityGraph("author-entity-graph");
-        TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.genre", Book.class);
+        EntityGraph<?> entityGraph = em.getEntityGraph("author-genre-graph");
+        TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
 
         return query.getResultList();

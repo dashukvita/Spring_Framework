@@ -1,5 +1,7 @@
 package ru.otus.spring.services;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repositories.impl.AuthorRepository;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.services.imp.BookService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,42 +23,49 @@ public class BookServiceImpl implements BookService {
     private final GenreRepository genreRepository;
 
     @Override
+    @Transactional
     public Book saveBook(long genreId, long authorId, String bookname){
-        Author author = authorRepository.findById(authorId);
         Book book = new Book();
-//        book.setAuthor(authorRepository.findById(authorId));
-//        book.setGenre(genreRepository.findById(genreId));
-//        book.setBookName(bookname);
-//
-//        bookRepository.save(book);
-        return null;
-    }
+        book.setGenre(genreRepository.findById(genreId));
+        book.setAuthor(authorRepository.findById(authorId));
+        book.setBookName(bookname);
 
-    @Override
-    public Book removeBook(long id){
-        Book book = bookRepository.findById(id);
-        bookRepository.remove(Optional.ofNullable(book));
+        bookRepository.save(book);
         return book;
     }
 
     @Override
+    @Transactional
+    public Book removeBook(long id){
+        Book book = bookRepository.findById(id);
+        if(book != null){
+            bookRepository.remove(book);
+        }
+        return book;
+    }
+
+    @Override
+    @Transactional
     public Book findByIdBook(long id){
         return bookRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public List<Book> findByGenreBook(long genreId){
         Genre genre = genreRepository.findById(genreId);
         return bookRepository.findByGenre(genre);
     }
 
     @Override
+    @Transactional
     public List<Book> findByAuthorBook(long authorId){
         Author author = authorRepository.findById(authorId);
-        return bookRepository.findByAuthor(Optional.ofNullable(author));
+        return bookRepository.findByAuthor(author);
     }
 
     @Override
+    @Transactional
     public List<Book> findAllBooks(){
         return bookRepository.findAll();
     }

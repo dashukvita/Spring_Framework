@@ -18,42 +18,41 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 @DisplayName("Класс GenreService")
 public class GenreServiceImplTest {
 
-//    private GenreRepository genreRepository;
-//    private GenreService genreService;
-//
-//    @BeforeEach
-//    void setUp() {
-//        genreRepository = mock(GenreRepository.class);
-//        genreService = new GenreServiceImpl(genreRepository);
-//    }
-//
-//    @Test
-//    @DisplayName("получение жанра из бд корректно")
-//    void getAllAuthors() {
-//        ArrayList<Genre> genres = new ArrayList<>();
-//        when(genreRepository.findAll()).thenReturn(genres);
-//
-//        List<Genre> resultAuthors = genreService.findAllGenres();
-//
-//        assertThat(resultAuthors).isNotNull();
-//        assertThat(resultAuthors).isEqualTo(genres);
-//        verify(genreRepository).findAll();
-//        verifyNoMoreInteractions(genreRepository);
-//    }
-//
-//    @Test
-//    @DisplayName("создание жанра корректно")
-//    void createAuthor() {
-//        long genreId = 3;
-//        String codeGenre = "G3";
-//        String genreName = "Genre3";
-//
-//        Genre resultGenre = genreService.saveGenre(genreId, codeGenre, genreName);
-//
-//        assertThat(resultGenre).isNotNull();
-//        assertThat(resultGenre.getCodeGenre()).isEqualTo(codeGenre);
-//        assertThat(resultGenre.getGenreName()).isEqualTo(genreName);
-//        verify(genreRepository).save(any(Genre.class));
-//        verifyNoMoreInteractions(genreRepository);
-//    }
+    private GenreRepository genreRepository;
+    private GenreService genreService;
+
+    @BeforeEach
+    void setUp() {
+        genreRepository = mock(GenreRepository.class);
+        genreService = new GenreServiceImpl(genreRepository);
+    }
+
+    @Test
+    @DisplayName("получение жанра из бд корректно")
+    void getAllAuthors() {
+        ArrayList<Genre> genres = new ArrayList<>();
+        when(genreRepository.findAll()).thenReturn(genres);
+
+        List<Genre> resultAuthors = genreService.findAllGenres();
+
+        assertThat(resultAuthors).isNotNull();
+        assertThat(resultAuthors).isEqualTo(genres);
+        verify(genreRepository).findAll();
+        verifyNoMoreInteractions(genreRepository);
+    }
+
+    @Test
+    @DisplayName("создание жанра корректно")
+    void createAuthor() {
+        String codeGenre = "G3";
+        String genreName = "Genre3";
+
+        Genre resultGenre = genreService.saveGenre(codeGenre, genreName);
+
+        assertThat(resultGenre).isNotNull();
+        assertThat(resultGenre.getCodeGenre()).isEqualTo(codeGenre);
+        assertThat(resultGenre.getGenreName()).isEqualTo(genreName);
+        verify(genreRepository).save(any(Genre.class));
+        verifyNoMoreInteractions(genreRepository);
+    }
 }

@@ -15,8 +15,9 @@ import static javax.persistence.FetchType.EAGER;
 
 @Data
 @Entity
-@NamedEntityGraph(name = "author-entity-graph",
-        attributeNodes = {@NamedAttributeNode("author")}
+@NamedEntityGraph(name = "author-genre-graph",
+        attributeNodes = {@NamedAttributeNode("genre"),
+                @NamedAttributeNode("author")}
 )
 @Accessors(chain = true)
 @Table(name = "books")
@@ -27,18 +28,14 @@ public class Book {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne(targetEntity=Author.class, cascade = CascadeType.ALL, fetch = EAGER)
-    @JoinColumn(name = "author_id")
-    private Author author;
-
-    @ManyToOne(targetEntity=Genre.class, cascade = CascadeType.ALL, fetch = EAGER)
+    @ManyToOne(cascade = ALL, fetch = EAGER)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
+    @ManyToOne(cascade = ALL, fetch = EAGER)
+    @JoinColumn(name = "author_id")
+    private Author author;
+
     @Column(name = "bookname", nullable = false, unique = true)
     private String bookName;
-
-//    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = EAGER)
-//    private List<Comment> comments = new ArrayList<>();
-
 }

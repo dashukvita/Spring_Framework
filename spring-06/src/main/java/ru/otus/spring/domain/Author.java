@@ -12,6 +12,8 @@ import java.util.Set;
 import static javax.persistence.FetchType.EAGER;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "authors")
 @Accessors(chain = true)
@@ -30,8 +32,5 @@ public class Author {
 
     @Column(name = "birthday")
     private String birthday;
-
-//    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = EAGER)
-//    private List<Book> books = new ArrayList<>();
 
 }

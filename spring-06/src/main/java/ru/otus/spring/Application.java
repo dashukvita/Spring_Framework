@@ -4,6 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.boot.SpringApplication;
 
+import java.io.Console;
+
 @SpringBootApplication
 public class Application {
 

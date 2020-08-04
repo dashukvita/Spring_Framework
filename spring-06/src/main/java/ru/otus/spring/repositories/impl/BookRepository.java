@@ -11,13 +11,13 @@ public interface BookRepository {
 
     Book save(Book book);
 
-    void remove(Optional<Book> book);
+    void remove(Book book);
 
     Book findById(long id);
 
     List<Book> findByGenre(Genre genre);
 
-    List<Book> findByAuthor(Optional<Author> author);
+    List<Book> findByAuthor(Author author);
 
     List<Book> findAll();
 }

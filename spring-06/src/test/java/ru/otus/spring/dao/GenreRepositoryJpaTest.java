@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repositories.GenreRepositoryJpa;
 
@@ -19,23 +20,23 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @DataJpaTest
 @Import(GenreRepositoryJpa.class)
 @AutoConfigureTestDatabase(replace = NONE)
-@DisplayName("Класс GenreDaoJdbcTest")
+@DisplayName("Класс GenreRepositoryJpa")
 public class GenreRepositoryJpaTest {
 
     @Autowired
     private GenreRepositoryJpa genreRepositoryJpa;
-//
-//    @Test
-//    @DisplayName("получение жанра по id из бд корректно")
-//    void getById() {
-//        int id = 1;
-//        Genre genre = genreRepositoryJpa.findById(id);
-//
-//        assertThat(genre).isNotNull();
-//        assertThat(genre.getGenreName()).isEqualTo("Детектив");
-//        assertThat(genre.getCodeGenre()).isEqualTo("ХЛ");
-//    }
-//
+
+    @Test
+    @DisplayName("получение жанра по id из бд корректно")
+    void getById() {
+        int id = 1;
+        Genre genre = genreRepositoryJpa.findById(id);
+
+        assertThat(genre).isNotNull();
+        assertThat(genre.getGenreName()).isEqualTo("Детектив");
+        assertThat(genre.getCodeGenre()).isEqualTo("ХЛ");
+    }
+
     @Test
     @DisplayName("все жанры из бд получены")
     void findAll() {
@@ -45,28 +46,30 @@ public class GenreRepositoryJpaTest {
         assertEquals(genre.size(), 2);
     }
 
-//    @Test
-//    @DisplayName("добавление жанра в бд корректно")
-//    void create() {
-//        long genreId = 3;
-//        String genreName = "Genre3";
-//        String codeGenre = "G3";
-//        Genre genre = new Genre(genreId, codeGenre, genreName);
-//        genreRepositoryJpa.save(genre);
-//        List<Genre> genres = genreRepositoryJpa.findAll();
-//
-//
-//        assertThat(genres.get(2)).isEqualToIgnoringGivenFields(genre, "id");
-//    }
-//
-//    @Test
-//    @DisplayName("удаление жанра из бд корректно")
-//    void delete() {
-//        int id = 3;
-//        Genre genre = genreRepositoryJpa.findById(id);
-//        genreRepositoryJpa.remove(genre);
-//        List<Genre> genres  = genreRepositoryJpa.findAll();
-//
-//        assertEquals(genres.size(), 2);
-//    }
+    @Test
+    @DisplayName("добавление жанра в бд корректно")
+    void create() {
+        String genreName = "Genre3";
+        String codeGenre = "G3";
+        Genre genre = new Genre();
+        genre.setCodeGenre(codeGenre);
+        genre.setGenreName(genreName);
+
+        genreRepositoryJpa.save(genre);
+        List<Genre> genres = genreRepositoryJpa.findAll();
+
+
+        assertThat(genres.get(2)).isEqualToIgnoringGivenFields(genre, "id");
+    }
+
+    @Test
+    @DisplayName("удаление жанра из бд корректно")
+    void delete() {
+        int id = 2;
+        Genre genre = genreRepositoryJpa.findById(id);
+        genreRepositoryJpa.remove(genre);
+        List<Genre> genres  = genreRepositoryJpa.findAll();
+
+        assertEquals(genres.size(), 1);
+    }
 }

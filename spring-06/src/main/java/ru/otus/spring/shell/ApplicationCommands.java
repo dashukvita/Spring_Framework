@@ -44,7 +44,7 @@ public class ApplicationCommands {
                 author.getLastName());
     }
 
-    @ShellMethod(value = "Get author by id", key = {"get-author-id", "GAI"})
+    @ShellMethod(value = "Get author by id", key = {"get-author-id", "GA"})
     public void getAuthorById(@ShellOption long id) {
         Optional<Author> author = Optional.ofNullable(authorService.findByIdAuthor(id));
         System.out.printf("%s  %s %s дата рождения %s\n",
@@ -62,6 +62,69 @@ public class ApplicationCommands {
                 author.get().getLastName());
     }
 
+    @ShellMethod(value = "Get all genres", key = {"get-all-genre", "G"})
+    public void getAllGenres() {
+        genreService.findAllGenres().forEach(genre ->
+                System.out.printf("%s  %s \n",
+                        genre.getId(),
+                        genre.getGenreName()));
+    }
+
+    @ShellMethod(value = "Create genre", key = {"create-genre", "CG"})
+    public void createGenre(@ShellOption String codeGenre,
+                            @ShellOption String genreName) {
+        Genre genre = genreService.saveGenre(codeGenre, genreName);
+        System.out.printf("Жанр %s %s добавлен\n",
+                genre.getId(),
+                genre.getGenreName());
+    }
+
+    @ShellMethod(value = "Get genre by id", key = {"get-genre-id", "GG"})
+    public void getGenreNameById(@ShellOption long id) {
+        Genre genre = genreService.findByIdGenre(id);
+        System.out.printf("%s  %s \n",
+                genre.getId(),
+                genre.getGenreName());
+    }
+
+    @ShellMethod(value = "Delete genre", key = {"delete-genre", "DG"})
+    public void deleteGenre(@ShellOption long id) {
+        Genre genre = genreService.removeGenre(id);
+        System.out.printf("Жанр %s и книги этого жанра удалены.\n",
+                genre.getGenreName());
+    }
+
+    @ShellMethod(value = "Get all comments", key = {"get-all-comments", "C"})
+    public void getAllComments() {
+        commentService.findAllComments().forEach(comment ->
+                System.out.printf("'%s' - %s\n",
+                        comment.getBook().getBookName(),
+                        comment.getMessage()));
+    }
+
+    @ShellMethod(value = "Create comment", key = {"create-comment", "CC"})
+    public void createComment(@ShellOption String message,
+                              @ShellOption long book_id) {
+        Comment comment = commentService.saveComment(message, book_id);
+        System.out.printf("Комментарий %s на книгу '%s' добавлен.\n",
+                comment.getMessage(),
+                comment.getBook().getBookName());
+    }
+
+    @ShellMethod(value = "Get comment by id", key = {"get-comment-id", "GC"})
+    public void getCommentNameById(@ShellOption long id) {
+        Comment comment = commentService.findByIdComment(id);
+        System.out.printf("%s  %s \n",
+                comment.getId(),
+                comment.getMessage());
+    }
+
+    @ShellMethod(value = "Delete comment", key = {"delete-comment", "DC"})
+    public void deleteComment(@ShellOption long id) {
+        Comment comment = commentService.removeComment(id);
+        System.out.printf("Комментарий %s' удален.\n",
+                comment.getMessage());
+    }
 
     @ShellMethod(value = "Get all books", key = {"get-all-books", "B"})
     public void getAllBooks() {
@@ -96,43 +159,14 @@ public class ApplicationCommands {
                         book.getGenre().getGenreName()));
     }
 
-    @ShellMethod(value = "Get all genres", key = {"get-all-genre", "G"})
-    public void getAllGenres() {
-        genreService.findAllGenres().forEach(genre ->
-                System.out.printf("%s  %s \n",
-                        genre.getId(),
-                        genre.getGenreName()));
-    }
-
-    @ShellMethod(value = "Get all comments", key = {"get-all-comments", "C"})
-    public void getAllComments() {
-        commentService.findAllComments().forEach(comment ->
-                System.out.printf("%s  %s \n",
-                        comment.getId(),
-                        comment.getMessage()));
-    }
-
+    //    there
     @ShellMethod(value = "Delete book", key = {"delete-book", "DB"})
     public void deleteBook(@ShellOption long id) {
         Book book = bookService.removeBook(id);
-        System.out.printf("Книга удалена: %s, Автор %s\n",
+        System.out.printf("Книга %s, Автор %s и все комментарии к ней удалены.\n",
                 book.getBookName(),
                 book.getAuthor().getLastName(),
                 book.getAuthor().getFirstName());
-    }
-
-    @ShellMethod(value = "Delete genre", key = {"delete-genre", "DG"})
-    public void deleteGenre(@ShellOption long id) {
-        Genre genre = genreService.removeGenre(id);
-        System.out.printf("Жанр %s и книги этого жанра удалены.\n",
-                genre.getGenreName());
-    }
-
-    @ShellMethod(value = "Delete comment", key = {"delete-comment", "DC"})
-    public void deleteComment(@ShellOption long id) {
-        Comment comment = commentService.removeComment(id);
-        System.out.printf("Комментарий %s' удален.\n",
-                comment.getMessage());
     }
 
     @ShellMethod(value = "Create book", key = {"create-book", "CB"})
@@ -146,23 +180,6 @@ public class ApplicationCommands {
                 book.getAuthor().getFirstName());
     }
 
-    @ShellMethod(value = "Create genre", key = {"create-genre", "CG"})
-    public void createGenre(@ShellOption String codeGenre,
-                             @ShellOption String genreName) {
-        Genre genre = genreService.saveGenre(codeGenre, genreName);
-        System.out.printf("Жанр %s %s добавлен\n",
-                genre.getId(),
-                genre.getGenreName());
-    }
-
-    @ShellMethod(value = "Create comment", key = {"create-comment", "CC"})
-    public void createComment(@ShellOption String message,
-                            @ShellOption long book_id) {
-        Comment comment = commentService.saveComment(message, book_id);
-        System.out.printf("Комментарий %s добавлен\n",
-                comment.getMessage());
-    }
-
     @ShellMethod(value = "Get book", key = {"get-book", "GB"})
     public void getBookById(@ShellOption long id) {
         Book book = bookService.findByIdBook(id);
@@ -172,22 +189,6 @@ public class ApplicationCommands {
                 book.getAuthor().getFirstName(),
                 book.getAuthor().getLastName(),
                 book.getGenre().getGenreName());
-    }
-
-    @ShellMethod(value = "Get genre by id", key = {"get-genre-id", "GGI"})
-    public void getGenreNameById(@ShellOption long id) {
-        Genre genre = genreService.findByIdGenre(id);
-        System.out.printf("%s  %s \n",
-                genre.getId(),
-                genre.getGenreName());
-    }
-
-    @ShellMethod(value = "Get comment by id", key = {"get-comment-id", "GCI"})
-    public void getCommentNameById(@ShellOption long id) {
-        Comment comment = commentService.findByIdComment(id);
-        System.out.printf("%s  %s \n",
-                comment.getId(),
-                comment.getMessage());
     }
 
 }
