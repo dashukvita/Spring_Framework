@@ -4,17 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.repositories.AuthorRepositoryJpa;
 import ru.otus.spring.repositories.BookRepositoryJpa;
-import ru.otus.spring.repositories.CommentRepositoryJpa;
 import ru.otus.spring.repositories.GenreRepositoryJpa;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,9 +26,9 @@ public class BookRepositoryJpaTest {
     @Autowired
     private BookRepositoryJpa bookRepositoryJpa;
     @Autowired
-    private AuthorRepositoryJpa authorDao;
+    private AuthorRepositoryJpa authorRepositoryJpa;
     @Autowired
-    private GenreRepositoryJpa genreDao;
+    private GenreRepositoryJpa genreRepositoryJpa;
 
     @Test
     @DisplayName("получение книги по id из бд корректно")
@@ -59,8 +56,8 @@ public class BookRepositoryJpaTest {
     void create() {
         String bookName = "Book3";
         Book book = new Book()
-                .setGenre(genreDao.findById(1))
-                .setAuthor(authorDao.findById(1))
+                .setGenre(genreRepositoryJpa.findById(1))
+                .setAuthor(authorRepositoryJpa.findById(1))
                 .setBookName(bookName);
 
         bookRepositoryJpa.save(book);
