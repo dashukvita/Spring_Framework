@@ -35,7 +35,9 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Comment removeComment(long id) {
         Comment comment  = commentRepository.findById(id);
-        commentRepository.remove(comment);
+        if(comment != null){
+            commentRepository.remove(comment);
+        }
         return comment;
     }
 

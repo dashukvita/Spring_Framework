@@ -30,7 +30,9 @@ public class GenreServiceImpl implements GenreService {
     @Transactional
     public Genre removeGenre(long id){
         Genre genre = genreRepository.findById(id);
-        genreRepository.remove(genre);
+        if(genre != null){
+            genreRepository.remove(genre);
+        }
         return genre;
     }
 
