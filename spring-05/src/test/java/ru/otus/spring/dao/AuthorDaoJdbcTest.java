@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Author;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,12 +28,12 @@ class AuthorDaoJdbcTest {
     @DisplayName("получение автора по id из бд корректно")
     void getById() {
         int id = 1;
-        Author author = authorDaoJdbc.getById(id);
+        Optional<Author> author = authorDaoJdbc.getById(id);
 
         assertThat(author).isNotNull();
-        assertThat(author.getFirstName()).isEqualTo("Author1");
-        assertThat(author.getLastName()).isEqualTo("Author1");
-        assertThat(author.getBirthday()).isEqualTo("31.07.1965");
+        assertThat(author.get().getFirstName()).isEqualTo("Author1");
+        assertThat(author.get().getLastName()).isEqualTo("Author1");
+        assertThat(author.get().getBirthday()).isEqualTo("31.07.1965");
     }
 
     @Test

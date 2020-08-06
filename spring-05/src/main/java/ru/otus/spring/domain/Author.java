@@ -1,11 +1,10 @@
 package ru.otus.spring.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 public class Author {
 
@@ -13,4 +12,5 @@ public class Author {
     private final String firstName;
     private final String lastName;
     private final String birthday;
+
 }

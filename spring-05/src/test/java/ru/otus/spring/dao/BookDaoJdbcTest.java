@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,12 +34,12 @@ public class BookDaoJdbcTest {
     @DisplayName("получение книги по id из бд корректно")
     void getById() {
         int id = 1;
-        Book book = bookDaoJdbc.getById(id);
+        Optional<Book> book = bookDaoJdbc.getById(id);
 
         assertThat(book).isNotNull();
-        assertThat(book.getBookName()).isEqualTo("Book1");
-        assertThat(book.getAuthor().getFirstName()).isEqualTo("Author1");
-        assertThat(book.getGenre().getGenre()).isEqualTo("Детектив");
+        assertThat(book.get().getBookName()).isEqualTo("Book1");
+        assertThat(book.get().getAuthor().getFirstName()).isEqualTo("Author1");
+        assertThat(book.get().getGenre().getGenre()).isEqualTo("Детектив");
     }
 
     @Test
@@ -51,9 +54,12 @@ public class BookDaoJdbcTest {
     @Test
     @DisplayName("добавление книги в бд корректно")
     void create() {
-        long id = 3;
         String bookName = "Book3";
-        Book book = new Book(id, authorDao.getById(1), genreDao.getById(1),bookName);
+
+        Author author = authorDao.getById(1).get();
+        Genre genre = genreDao.getById(1).get();
+
+        Book book = Book.builder().author(author).genre(genre).bookName(bookName).build();
 
         bookDaoJdbc.create(book);
         List<Book> books = bookDaoJdbc.getAll();

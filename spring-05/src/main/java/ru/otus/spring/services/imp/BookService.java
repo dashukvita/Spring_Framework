@@ -3,14 +3,15 @@ package ru.otus.spring.services.imp;
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
 
-    Book createBook(long id, long author_id, long genre_id, String bookname);
+    Book createBook(long authorId, long genreId, String bookname);
 
-    Book deleteBook(long id);
+    Optional<Book> deleteBook(long id);
 
-    Book getByIdBook(long id);
+    Optional<Book> getByIdBook(long id);
 
     List<Book> getByGenreBook(long genreId);
 

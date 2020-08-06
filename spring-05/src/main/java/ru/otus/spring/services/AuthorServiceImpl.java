@@ -4,9 +4,11 @@ import ru.otus.spring.dao.impl.AuthorDao;
 import ru.otus.spring.domain.Author;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.domain.Book;
 import ru.otus.spring.services.imp.AuthorService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,21 +17,22 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorDao authorDao;
 
     @Override
-    public Author createAuthor(long author_id, String firstName, String lastname, String birthday){
-        Author author = new Author(author_id, firstName, lastname, birthday);
+    public Author createAuthor(String firstName, String lastname, String birthday){
+        Author author = Author.builder().firstName(firstName).lastName(lastname).birthday(birthday).build();
         authorDao.create(author);
+
         return author;
     }
 
     @Override
-    public Author deleteAuthor(long id){
-        Author author = authorDao.getById(id);
+    public Optional<Author> deleteAuthor(long id){
+        Optional<Author> author = authorDao.getById(id);
         authorDao.deleteById(id);
         return author;
     }
 
     @Override
-    public Author getByIdAuthor(long id){
+    public Optional<Author> getByIdAuthor(long id){
         return authorDao.getById(id);
     }
 

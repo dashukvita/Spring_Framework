@@ -13,6 +13,7 @@ import ru.otus.spring.services.imp.BookService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -32,18 +33,20 @@ public class BookServiceImplTest {
         bookDao = mock(BookDao.class);
         genreDao = mock(GenreDao.class);
 
-        bookService = new BookServiceImpl(authorDao, bookDao, genreDao);
+        bookService = new BookServiceImpl(authorDao, bookDao, genreDao );
     }
 
     @Test
     @DisplayName("получение книги по id из бд корректно")
     void getBook() {
-        long id = 3;
-        String bookName = "Book3";
-        Book book = new Book(id, authorDao.getById(1), genreDao.getById(1),bookName);
-        when(bookDao.getById(id)).thenReturn(book);
+        int id = 1;
+        Author author = new Author(id, "firstName", "lastName", "birthday");
+        Genre genre = new Genre(id, "code", "genre");
+        Book book = new Book(id, author, genre,"testBook");
 
-        Book resultBook = bookService.getByIdBook(id);
+        when(bookDao.getById(id)).thenReturn(Optional.ofNullable(book));
+
+        Book resultBook = bookService.getByIdBook(id).get();
 
         assertThat(resultBook).isNotNull();
         assertThat(resultBook).isEqualTo(book);
@@ -66,53 +69,56 @@ public class BookServiceImplTest {
     }
 
     @Test
+    @DisplayName("создание книги корректно")
+    void createBook() {
+        String firstName = "Author3";
+        String lastName = "Author3";
+        String birthDay = "05.01.1932";
+
+        String genreName = "Genre3";
+        String codeGenre = "G3";
+
+        String bookName = "BookTest";
+
+        Author author = Author.builder().firstName(firstName).lastName(lastName).birthday(birthDay).build();
+        authorDao.create(author);
+
+        Genre genre  = Genre.builder().codeGenre(codeGenre).genre(genreName).build();
+        genreDao.create(genre);
+
+        when(authorDao.getById(author.getId())).thenReturn(Optional.of(author));
+        when(genreDao.getById(genre.getId())).thenReturn(Optional.of(genre));
+
+        Book resultBook = bookService.createBook(author.getId(), genre.getId(), bookName);
+
+        assertThat(resultBook).isNotNull();
+        assertThat(resultBook.getBookName()).isEqualTo(bookName);
+        assertThat(resultBook.getAuthor().getId()).isEqualTo(author.getId());
+        assertThat(resultBook.getGenre()).isEqualTo(genre);
+
+        verify(bookDao).create(any(Book.class));
+        verify(authorDao).getById(author.getId());
+        verify(genreDao).getById(genre.getId());
+        verifyNoMoreInteractions(bookDao);
+    }
+
+    @Test
     @DisplayName("удаление книги из бд корректно")
     void deleteBook() {
         int id = 1;
-        Book book = new Book(id, authorDao.getById(1), genreDao.getById(1), "bookName");
+        Author author = new Author(id, "firstName", "lastName", "birthday");
+        Genre genre = new Genre(id, "code", "genre");
+        Book book = new Book(id, author, genre,"testBook");
 
-        when(bookDao.getById(id)).thenReturn(book);
+        when(bookDao.getById(id)).thenReturn(Optional.of(book));
 
-        Book resultBook = bookService.deleteBook(id);
+        Book resultBook = bookService.deleteBook(id).get();
 
         assertThat(resultBook).isNotNull();
         assertThat(resultBook.getId()).isEqualTo(id);
 
         verify(bookDao).getById(id);
         verify(bookDao).deleteById(id);
-    }
-
-    @Test
-    @DisplayName("создание книги корректно")
-    void createBook() {
-        long authorId = 3;
-        String firstName = "Author3";
-        String lastName = "Author3";
-        String birthDay = "05.01.1932";
-
-        long genreId = 3;
-        String genreName = "Genre3";
-        String codeGenre = "G3";
-
-        String bookName = "BookTest";
-
-        Genre genre = new Genre(genreId, codeGenre, genreName);
-        Author author = new Author(authorId, firstName, lastName, birthDay);
-
-        when(authorDao.getById(author.getId())).thenReturn(author);
-        when(genreDao.getById(genre.getId())).thenReturn(genre);
-
-        Book resultBook = bookService.createBook(1, author.getId(), genre.getId(), bookName);
-
-        assertThat(resultBook).isNotNull();
-        assertThat(resultBook.getBookName()).isEqualTo(bookName);
-        assertThat(resultBook.getAuthor().getId()).isEqualTo(author.getId());
-        assertThat(resultBook.getGenre()).isEqualTo(genre);
-        verify(bookDao).create(any(Book.class));
-        verify(authorDao).getById(author.getId());
-        verify(genreDao).getById(genre.getId());
         verifyNoMoreInteractions(bookDao);
-        verifyNoMoreInteractions(authorDao);
-        verifyNoMoreInteractions(genreDao);
     }
 }

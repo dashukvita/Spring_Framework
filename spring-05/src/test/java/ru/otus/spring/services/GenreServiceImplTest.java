@@ -44,11 +44,10 @@ public class GenreServiceImplTest {
     @Test
     @DisplayName("создание жанра корректно")
     void createAuthor() {
-        long genreId = 3;
         String codeGenre = "G3";
         String genreName = "Genre3";
 
-        Genre resultGenre = genreService.createGenre(genreId, codeGenre, genreName);
+        Genre resultGenre = genreService.createGenre(codeGenre, genreName);
 
         assertThat(resultGenre).isNotNull();
         assertThat(resultGenre.getCodeGenre()).isEqualTo(codeGenre);

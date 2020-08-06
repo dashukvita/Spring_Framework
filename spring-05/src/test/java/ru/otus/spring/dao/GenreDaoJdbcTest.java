@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,11 +28,11 @@ public class GenreDaoJdbcTest {
     @DisplayName("получение жанра по id из бд корректно")
     void getById() {
         int id = 1;
-        Genre genre = genreDaoJdbc.getById(id);
+        Optional<Genre> genre = genreDaoJdbc.getById(id);
 
         assertThat(genre).isNotNull();
-        assertThat(genre.getGenre()).isEqualTo("Детектив");
-        assertThat(genre.getCodeGenre()).isEqualTo("ХЛ");
+        assertThat(genre.get().getGenre()).isEqualTo("Детектив");
+        assertThat(genre.get().getCodeGenre()).isEqualTo("ХЛ");
     }
 
     @Test

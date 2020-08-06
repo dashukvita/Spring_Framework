@@ -11,6 +11,8 @@ import ru.otus.spring.services.imp.AuthorService;
 import ru.otus.spring.services.imp.BookService;
 import ru.otus.spring.services.imp.GenreService;
 
+import java.util.Optional;
+
 @ShellComponent
 @RequiredArgsConstructor
 public class ApplicationCommands {
@@ -72,88 +74,84 @@ public class ApplicationCommands {
 
     @ShellMethod(value = "Delete book", key = {"delete-book", "DB"})
     public void deleteBook(@ShellOption long id) {
-        Book book = bookService.deleteBook(id);
+        Optional<Book> book = bookService.deleteBook(id);
         System.out.printf("Книга удалена: %s, Автор %s\n",
-                book.getBookName(),
-                book.getAuthor().getLastName(),
-                book.getAuthor().getFirstName());
+                book.get().getBookName(),
+                book.get().getAuthor().getLastName(),
+                book.get().getAuthor().getFirstName());
     }
 
     @ShellMethod(value = "Delete author", key = {"delete-author", "DA"})
     public void deleteAuthor(@ShellOption long id) {
-        Author author = authorService.deleteAuthor(id);
+        Optional<Author> author = authorService.deleteAuthor(id);
         System.out.printf("Автор %s %s и его книги удалены из таблицы.\n",
-                author.getFirstName(),
-                author.getLastName());
+                author.get().getFirstName(),
+                author.get().getLastName());
     }
 
     @ShellMethod(value = "Delete genre", key = {"delete-genre", "DG"})
     public void deleteGenre(@ShellOption long id) {
-        Genre genre = genreService.deleteGenre(id);
+        Optional<Genre> genre = genreService.deleteGenre(id);
         System.out.printf("Жанр %s и книги этого жанра удалены.\n",
-                genre.getGenre());
+                genre.get().getGenre());
     }
 
     @ShellMethod(value = "Create book", key = {"create-book", "CB"})
-    public void createBook(@ShellOption long id,
-                           @ShellOption long idAuthor,
+    public void createBook(@ShellOption long idAuthor,
                            @ShellOption long idGenre,
                            @ShellOption String bookName) {
-        Book book = bookService.createBook(id, idAuthor, idGenre, bookName);
-        System.out.printf("Книга добавлена: %s, Автор %s\n",
+        Book book = bookService.createBook(idAuthor, idGenre, bookName);
+        System.out.printf("Книга добавлена: %s, Автор %s %s\n",
                 book.getBookName(),
-                book.getAuthor().getLastName(),
-                book.getAuthor().getFirstName());
+                book.getAuthor().getFirstName(),
+                book.getAuthor().getLastName());
     }
 
     @ShellMethod(value = "Create author", key = {"create-author", "CA"})
-    public void createAuthor(@ShellOption long author_id,
-                           @ShellOption String firstName,
+    public void createAuthor(@ShellOption String firstName,
                            @ShellOption String lastName,
                            @ShellOption String birthDay) {
-        Author author = authorService.createAuthor(author_id, firstName, lastName, birthDay);
+        Author author = authorService.createAuthor(firstName, lastName, birthDay);
         System.out.printf("Автор %s %s добавлен\n",
                 author.getFirstName(),
                 author.getLastName());
     }
 
     @ShellMethod(value = "Create genre", key = {"create-genre", "CG"})
-    public void createGenre(@ShellOption long genre_id,
-                             @ShellOption String codeGenre,
+    public void createGenre(@ShellOption String codeGenre,
                              @ShellOption String genreName) {
-        Genre genre = genreService.createGenre(genre_id, codeGenre, genreName);
-        System.out.printf("Автор %s %s добавлен\n",
-                genre.getId(),
+        Genre genre = genreService.createGenre(codeGenre, genreName);
+        System.out.printf("Жанр %s добавлен\n",
                 genre.getGenre());
     }
 
     @ShellMethod(value = "Get book", key = {"get-book", "GB"})
     public void getBookById(@ShellOption long id) {
-        Book book = bookService.getByIdBook(id);
+        Optional<Book> book = bookService.getByIdBook(id);
         System.out.printf("%s  '%s.'    Автор: %s %s    Жанр: %s\n",
-                book.getId(),
-                book.getBookName(),
-                book.getAuthor().getFirstName(),
-                book.getAuthor().getLastName(),
-                book.getGenre().getGenre());
+                book.get().getId(),
+                book.get().getBookName(),
+                book.get().getAuthor().getFirstName(),
+                book.get().getAuthor().getLastName(),
+                book.get().getGenre().getGenre());
     }
 
-    @ShellMethod(value = "Get author by id", key = {"get-author-id", "GAI"})
+    @ShellMethod(value = "Get author by id", key = {"get-author-id", "GA"})
     public void getAuthorById(@ShellOption long id) {
-        Author author = authorService.getByIdAuthor(id);
+        Optional<Author> author = authorService.getByIdAuthor(id);
         System.out.printf("%s  %s %s дата рождения %s\n",
-                author.getId(),
-                author.getFirstName(),
-                author.getLastName(),
-                author.getBirthday());
+                author.get().getId(),
+                author.get().getFirstName(),
+                author.get().getLastName(),
+                author.get().getBirthday());
     }
 
-    @ShellMethod(value = "Get genre by id", key = {"get-genre-id", "GGI"})
+    @ShellMethod(value = "Get genre by id", key = {"get-genre-id", "GG"})
     public void getGenreById(@ShellOption long id) {
-        Genre genre = genreService.getByIdGenre(id);
+        Optional<Genre> genre = genreService.getByIdGenre(id);
         System.out.printf("%s  %s \n",
-                genre.getId(),
-                genre.getGenre());
+                genre.get().getId(),
+                genre.get().getGenre());
     }
 
 }

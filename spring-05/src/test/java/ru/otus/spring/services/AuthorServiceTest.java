@@ -3,8 +3,10 @@ package ru.otus.spring.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.spring.dao.impl.AuthorDao;
 import ru.otus.spring.domain.Author;
+import ru.otus.spring.domain.Genre;
 import ru.otus.spring.services.imp.AuthorService;
 
 import java.util.ArrayList;
@@ -43,12 +45,11 @@ public class AuthorServiceTest {
     @Test
     @DisplayName("создание автора корректно")
     void createAuthor() {
-        long authorId = 3;
         String firstName = "Author3";
         String lastName = "Author3";
         String birthday = "01.01.2020";
 
-        Author resultAuthor = authorService.createAuthor(authorId, firstName, lastName, birthday);
+        Author resultAuthor = authorService.createAuthor(firstName, lastName, birthday);
 
         assertThat(resultAuthor).isNotNull();
         assertThat(resultAuthor.getFirstName()).isEqualTo(firstName);
@@ -56,5 +57,6 @@ public class AuthorServiceTest {
         assertThat(resultAuthor.getBirthday()).isEqualTo(birthday);
         verify(authorDao).create(any(Author.class));
         verifyNoMoreInteractions(authorDao);
+
     }
 }

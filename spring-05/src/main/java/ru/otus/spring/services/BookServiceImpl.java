@@ -3,12 +3,15 @@ package ru.otus.spring.services;
 import ru.otus.spring.dao.impl.AuthorDao;
 import ru.otus.spring.dao.impl.BookDao;
 import ru.otus.spring.dao.impl.GenreDao;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.domain.Genre;
 import ru.otus.spring.services.imp.BookService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,21 +22,25 @@ public class BookServiceImpl implements BookService {
     private final GenreDao genreDao;
 
     @Override
-    public Book createBook(long id, long author_id, long genre_id, String bookname){
-        Book book = new Book(id, authorDao.getById(author_id), genreDao.getById(genre_id), bookname);
+    public Book createBook(long authorId, long genreId, String bookname){
+        Author author = authorDao.getById(authorId).get();
+        Genre genre = genreDao.getById(genreId).get();
+
+        Book book = Book.builder().author(author).genre(genre).bookName(bookname).build();
         bookDao.create(book);
+
         return book;
     }
 
     @Override
-    public Book deleteBook(long id){
-        Book book = bookDao.getById(id);
+    public Optional<Book> deleteBook(long id){
+        Optional<Book> book = bookDao.getById(id);
         bookDao.deleteById(id);
         return book;
     }
 
     @Override
-    public Book getByIdBook(long id){
+    public Optional<Book> getByIdBook(long id){
         return bookDao.getById(id);
     }
 

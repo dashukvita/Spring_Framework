@@ -3,10 +3,9 @@ package ru.otus.spring.domain;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-@Data
-@Accessors(chain = true)
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 public class Book {
 

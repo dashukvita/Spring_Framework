@@ -1,57 +1,80 @@
 package ru.otus.spring.dao;
 
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import ru.otus.spring.dao.impl.AuthorDao;
 import ru.otus.spring.domain.Author;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static java.util.Map.of;
 
 @Repository
 @RequiredArgsConstructor
 public class AuthorDaoJdbc implements AuthorDao {
 
-    private final JdbcOperations jdbc;
+    private final NamedParameterJdbcOperations jdbc;
 
     @Override
-    public void create(Author author) {
-        jdbc.update("insert into author (author_id, firstname, lastname, birthday) values (?, ?, ?, ?)",
-                author.getId(),
-                author.getFirstName(),
-                author.getLastName(),
-                author.getBirthday());
+    public Author create(Author author) {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValues(Map.of(
+                "firstname", author.getFirstName(),
+                "lastname", author.getLastName(),
+                "birthday", author.getBirthday()));
+
+        jdbc.update("insert into authors (firstname, lastname, birthday) " +
+                "values (:firstname, :lastname, :birthday)", params, keyHolder, new String[] { "id" });
+
+        return (keyHolder.getKey() != null) ? getById(keyHolder.getKey().longValue()).get() : null;
     }
 
     @Override
     public void deleteById(long id) {
-        jdbc.update("delete from book where author_id = ?", id);
-        jdbc.update("delete from author where author_id = ?", id);
+        jdbc.update("delete from books where books.author_id = :id", Map.of("id", id));
+        jdbc.update("delete from authors where id = :id", Map.of("id", id));
     }
 
     @Override
-    public Author getById(long id) {
-        return jdbc.queryForObject("select * from author where author_id = ?", new AuthorMapper(), id);
+    public Optional<Author> getById(long id) {
+        return jdbc.query("select id, firstname, lastname, birthday from authors where id = :id",
+                Map.of("id", id), new AuthorMapper())
+                .stream().findFirst();
     }
 
     @Override
     public List<Author> getAll() {
-        return jdbc.query("select * from author", new AuthorMapper());
+        return jdbc.query("select id, firstname, lastname, birthday from authors", new AuthorMapper());
     }
 
     private static class AuthorMapper implements RowMapper<Author> {
 
         @Override
         public Author mapRow(ResultSet resultSet, int i) throws SQLException {
-            long author_id = resultSet.getLong("author_id");
+            long authorId = resultSet.getLong("id");
             String firstName = resultSet.getString("firstname");
             String lastName = resultSet.getString("lastname");
             String birthday = resultSet.getString("birthday");
 
-            return new Author(author_id, firstName, lastName, birthday);
+            return Author.builder()
+                    .id(authorId)
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .birthday(birthday)
+                    .build();
         }
     }
+
 }
