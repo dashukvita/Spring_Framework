@@ -28,18 +28,27 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     @Transactional
-    public Genre removeGenre(long id){
+    public Genre removeGenre(long id)  throws Exception {
         Genre genre = genreRepository.findById(id);
-        if(genre != null){
+
+        if(genre == null){
+            throw new Exception(String.format("Жанра с id '%s' нет в базе", id));
+        } else {
             genreRepository.remove(genre);
+            return genre;
         }
-        return genre;
     }
 
     @Override
     @Transactional
-    public Genre findByIdGenre(long id){
-        return genreRepository.findById(id);
+    public Genre findByIdGenre(long id) throws Exception {
+        Genre genre = genreRepository.findById(id);
+
+        if(genre == null){
+            throw new Exception(String.format("Жанр с id '%s' не найден", id));
+        } else {
+            return genre;
+        }
     }
 
     @Override

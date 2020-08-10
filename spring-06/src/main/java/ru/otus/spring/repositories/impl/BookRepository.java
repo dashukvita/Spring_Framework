@@ -5,7 +5,6 @@ import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BookRepository {
 
@@ -15,9 +14,9 @@ public interface BookRepository {
 
     Book findById(long id);
 
-    List<Book> findByGenre(Genre genre);
+    Book findByGenre(Genre genre);
 
-    List<Book> findByAuthor(Author author);
+    Book findByAuthor(Author author);
 
     List<Book> findAll();
 }

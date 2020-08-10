@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.services.imp.AuthorService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,18 +29,27 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional
-    public Author removeAuthor(long id){
+    public Author removeAuthor(long id) throws Exception {
         Author author = authorRepository.findById(id);
-        if(author != null){
+
+        if(author == null){
+            throw new Exception(String.format("Автора с id '%s' нет в базе", id));
+        } else{
             authorRepository.remove(author);
+            return author;
         }
-        return author;
     }
 
     @Override
     @Transactional
-    public Author findByIdAuthor(long id){
-        return authorRepository.findById(id);
+    public Author findByIdAuthor(long id)  throws Exception {
+        Author author = authorRepository.findById(id);
+
+        if(author == null){
+            throw new Exception(String.format("Автор с id '%s' не найден", id));
+        } else {
+            return author;
+        }
     }
 
     @Override

@@ -9,9 +9,9 @@ public interface AuthorService {
 
     Author saveAuthor(String firstName, String lastname, String birthday);
 
-    Author removeAuthor(long id);
+    Author removeAuthor(long id) throws Exception;
 
-    Author findByIdAuthor(long id);
+    Author findByIdAuthor(long id) throws Exception;
 
     List<Author> findAllAuthors();
 }

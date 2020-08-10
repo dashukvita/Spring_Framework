@@ -37,7 +37,7 @@ public class BookServiceImplTest {
 
     @Test
     @DisplayName("получение книги по id из бд корректно")
-    void getBook() {
+    void getBook() throws Exception {
         long id = 3;
         String bookName = "Book3";
         Book book = new Book()
@@ -70,7 +70,7 @@ public class BookServiceImplTest {
 
     @Test
     @DisplayName("создание книги корректно")
-    void createBook() {
+    void createBook() throws Exception {
         long authorId = 3;
         String firstName = "Author3";
         String lastName = "Author3";
@@ -104,7 +104,7 @@ public class BookServiceImplTest {
 
     @Test
     @DisplayName("удаление книги из бд корректно")
-    void deleteBook() {
+    void deleteBook() throws Exception {
         int id = 1;
         Book book = new Book()
                 .setId(id);

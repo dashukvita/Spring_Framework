@@ -2,24 +2,20 @@ package ru.otus.spring.repositories;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.repositories.impl.CommentRepository;
 
-import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Transactional
 @Repository
 public class CommentRepositoryJpa implements CommentRepository {
 
     @PersistenceContext
     private EntityManager em;
+    private Class<Comment> comments;
 
     @Override
     public Comment save(Comment comment) {
@@ -33,7 +29,7 @@ public class CommentRepositoryJpa implements CommentRepository {
 
     @Override
     public void remove(Comment comment) {
-        em.remove(comment);
+        em.remove(em.contains(comment) ? comment : em.merge(comment));
     }
 
     @Override
@@ -43,9 +39,6 @@ public class CommentRepositoryJpa implements CommentRepository {
 
     @Override
     public List<Comment> findAll() {
-        EntityGraph<?> entityGraph = em.getEntityGraph("book-entity-graph");
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c ", Comment.class);
-        query.setHint("javax.persistence.fetchgraph", entityGraph);
-        return query.getResultList();
+        return em.createQuery("select c FROM Comment c", Comment.class).getResultList();
     }
 }

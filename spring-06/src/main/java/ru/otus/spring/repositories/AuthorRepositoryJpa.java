@@ -1,7 +1,5 @@
 package ru.otus.spring.repositories;
 
-import java.util.Optional;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.repositories.impl.AuthorRepository;
 import ru.otus.spring.domain.Author;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Transactional
 @Repository
 public class AuthorRepositoryJpa implements AuthorRepository {
 
@@ -37,10 +33,6 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public void remove(Author author) {
-        Query query = em.createQuery("delete from Book b where b.author.id = :author_id");
-        query.setParameter("author_id", author.getId());
-        query.executeUpdate();
-
         em.remove(em.contains(author) ? author : em.merge(author));
     }
 

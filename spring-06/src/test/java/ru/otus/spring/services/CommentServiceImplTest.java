@@ -51,7 +51,7 @@ public class CommentServiceImplTest {
 
     @Test
     @DisplayName("создание комментария корректно")
-    void createComment() {
+    void createComment() throws Exception {
         int id= 1;
         String message = "message";
         Book book = new Book().setId(id);

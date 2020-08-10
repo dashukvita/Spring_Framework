@@ -8,9 +8,9 @@ public interface GenreService {
 
     Genre saveGenre(String codegenre, String genreName);
 
-    Genre removeGenre(long id);
+    Genre removeGenre(long id) throws Exception;
 
-    Genre findByIdGenre(long id);
+    Genre findByIdGenre(long id) throws Exception;
 
     List<Genre> findAllGenres();
 }
