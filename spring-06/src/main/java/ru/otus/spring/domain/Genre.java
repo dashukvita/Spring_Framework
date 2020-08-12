@@ -3,12 +3,7 @@ package ru.otus.spring.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import static javax.persistence.FetchType.EAGER;
 
 @Data
 @NoArgsConstructor
@@ -27,5 +22,8 @@ public class Genre {
 
     @Column(name = "genre", nullable = false, unique = true)
     private String genreName;
+
+    @OneToMany(mappedBy = "genre", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    List<Book> books;
 
 }

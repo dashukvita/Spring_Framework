@@ -71,19 +71,23 @@ public class BookServiceImplTest {
     @Test
     @DisplayName("создание книги корректно")
     void createBook() throws Exception {
-        long authorId = 3;
         String firstName = "Author3";
         String lastName = "Author3";
         String birthDay = "05.01.1932";
 
-        long genreId = 3;
         String genreName = "Genre3";
         String codeGenre = "G3";
 
         String bookName = "BookTest";
 
-        Genre genre = new Genre(genreId, codeGenre, genreName);
-        Author author = new Author(authorId, firstName, lastName, birthDay);
+        Genre genre = new Genre();
+        genre.setCodeGenre(codeGenre);
+        genre.setGenreName(genreName);
+
+        Author author = new Author();
+        author.setFirstName(firstName);
+        author.setLastName(lastName);
+        author.setBirthday(birthDay);
 
         when(authorRepository.findById(author.getId())).thenReturn(author);
         when(genreRepository.findById(genre.getId())).thenReturn(genre);

@@ -4,12 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import static javax.persistence.FetchType.EAGER;
 
 @Data
 @NoArgsConstructor
@@ -32,5 +27,8 @@ public class Author {
 
     @Column(name = "birthday")
     private String birthday;
+
+    @OneToMany(mappedBy = "author",fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    List<Book> books;
 
 }

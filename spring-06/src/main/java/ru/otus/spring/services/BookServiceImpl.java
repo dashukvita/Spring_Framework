@@ -68,11 +68,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public List<Book> findByGenreBook(long genreId) throws Exception {
         Genre genre = genreRepository.findById(genreId);
 
-        if(genre.getId() == 0){
+        if(genre == null){
             throw new Exception(String.format("Книги жанра с id '%s' не найдены", genreId));
         } else{
             List<Book> resultBooks = new ArrayList<>();
@@ -87,11 +86,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public List<Book> findByAuthorBook(long authorId) throws Exception {
         Author author = authorRepository.findById(authorId);
 
-        if(author.getId() == 0){
+        if(author == null){
             throw new Exception(String.format("Книги с id автора '%s' не найдены", authorId));
         } else {
             List<Book> resultBooks = new ArrayList<>();
@@ -106,7 +104,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public List<Book> findAllBooks(){
         return bookRepository.findAll();
     }

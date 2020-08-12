@@ -41,7 +41,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public Author findByIdAuthor(long id)  throws Exception {
         Author author = authorRepository.findById(id);
 
@@ -53,7 +52,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public List<Author> findAllAuthors(){
         return authorRepository.findAll();
     }

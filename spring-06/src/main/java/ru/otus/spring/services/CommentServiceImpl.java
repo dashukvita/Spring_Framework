@@ -50,7 +50,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public List<Comment> findByBookId(long bookId) throws Exception {
         Book book = bookRepository.findById(bookId);
 
@@ -69,7 +68,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public Comment findByIdComment(long id) throws Exception {
         Comment comment  = commentRepository.findById(id);
 
@@ -82,7 +80,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public List<Comment> findAllComments() {
         return commentRepository.findAll();
     }

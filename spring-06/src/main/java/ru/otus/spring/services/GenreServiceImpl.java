@@ -40,7 +40,6 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Transactional
     public Genre findByIdGenre(long id) throws Exception {
         Genre genre = genreRepository.findById(id);
 
@@ -52,7 +51,6 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Transactional
     public List<Genre> findAllGenres(){
         return genreRepository.findAll();
     }

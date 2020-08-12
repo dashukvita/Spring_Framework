@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -28,8 +25,8 @@ public class Comment {
     @Column(name = "message", nullable = false)
     private String message;
 
-    @ManyToOne(cascade = ALL, fetch = EAGER)
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id", nullable = false)
+    Book book;
 
 }
