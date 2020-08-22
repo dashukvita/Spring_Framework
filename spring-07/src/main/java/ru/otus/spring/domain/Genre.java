@@ -4,29 +4,23 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "genres")
+@Table(name = "GENRES")
 @Accessors(chain = true)
 public class Genre {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     @NonNull private long id;
 
-    @Column(name = "codegenre", unique = true)
-    @NonNull private String codeGenre;
+    @Column(name = "CODE", unique = true)
+    @NonNull private String code;
 
-    @Column(name = "genre", unique = true)
-    @NonNull private String genreName;
-
-    @OneToMany(mappedBy = "genre", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<Book> books;
-
+    @Column(name = "TITLE", unique = true)
+    @NonNull private String title;
 }

@@ -1,38 +1,41 @@
-drop table if exists comments;
-drop table if exists books;
-drop table if exists authors;
-drop table if exists genres;
+drop table if exists COMMENTS;
+drop table if exists BOOKS;
+drop table if exists AUTHORS;
+drop table if exists GENRES;
 
-create table authors
+create table AUTHORS
 (
-    id bigserial not null,
-    firstName character varying(20) not null,
-    lastName character varying(20) not null,
-    birthday character varying(20) not null,
-    primary key (id)
+    ID          bigserial  not null,
+    FIRSTNAME   character varying(20) not null,
+    LASTNAME    character varying(20) not null,
+    BIRTHDAY    character varying(20) not null,
+    primary key (ID)
 );
 
-create table genres
+create table GENRES
 (
-    id bigserial not null,
-    codeGenre character varying(2) not null,
-    genre character varying(200) not null,
-    primary key (id)
+    ID          bigserial not null,
+    CODE        character varying(2) not null,
+    TITLE       character varying(200) not null,
+    primary key (ID)
 );
 
-create table books
+
+create table BOOKS
 (
-    id bigserial not null,
-    genre_id bigint references genres(id) on delete cascade,
-    author_id bigint references authors(id) on delete cascade,
-    bookName character varying(200) not null,
-    primary key (id)
+    ID          bigserial not null,
+    TITLE       character varying(200) not null,
+    GENRE_ID    bigint references GENRES(ID) on delete cascade,
+    AUTHOR_ID   bigint references AUTHORS(ID) on delete cascade,
+    primary key (ID)
 );
 
-create table comments
+create table COMMENTS
 (
-    id bigserial not null,
-    message character varying(255) not null,
-    book_id bigint references books(id) on delete cascade,
-    primary key (id)
+    ID          bigserial not null,
+    MESSAGE     character varying(255) not null,
+    BOOK_ID     bigint references BOOKS(ID) on delete cascade,
+    primary key (ID)
 );
+
+

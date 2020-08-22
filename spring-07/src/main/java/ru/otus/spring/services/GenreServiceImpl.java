@@ -1,7 +1,6 @@
 package ru.otus.spring.services;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.domain.Author;
 import ru.otus.spring.repositories.impl.GenreRepository;
 import ru.otus.spring.domain.Genre;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.services.imp.GenreService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,17 +17,17 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     @Transactional
-    public Genre saveGenre(String codeGenre, String genreName){
+    public Genre save(String code, String title){
         Genre genre = new Genre()
-                .setCodeGenre(codeGenre)
-                .setGenreName(genreName);
+                .setCode(code)
+                .setTitle(title);
 
         genreRepository.save(genre);
         return genre;
     }
 
     @Override
-    public Genre removeGenre(long id)  {
+    public Genre remove(long id)  {
         Genre genre = genreRepository.findById(id)
             .orElseThrow(() -> new NullPointerException(String.format("Жанра с id '%s' нет в базе", id)));
 
@@ -38,9 +36,20 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre findByIdGenre(long id) {
+    public Genre findById(long id) {
         return genreRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException(String.format("Жанра с id '%s' нет в базе", id)));
+    }
+
+    @Override
+    public Genre findByTitle(String title) throws Exception {
+        Genre genre = genreRepository.findByTitle(title);
+
+        if(genre == null){
+            throw new Exception(String.format("Жанр '%s' не найден", title));
+        } else{
+            return genre;
+        }
     }
 
     @Override

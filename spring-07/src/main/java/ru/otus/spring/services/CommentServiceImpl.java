@@ -9,9 +9,7 @@ import ru.otus.spring.repositories.impl.BookRepository;
 import ru.otus.spring.repositories.impl.CommentRepository;
 import ru.otus.spring.services.imp.CommentService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +20,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Comment saveComment(String message, long book_id) throws Exception {
-        Book book = bookRepository.findById(book_id)
-                .orElseThrow(() -> new NullPointerException(String.format("Книги с id '%s' нет в базе", book_id)));
+    public Comment save(String message, long bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NullPointerException(String.format("Книги с id '%s' нет в базе", bookId)));
 
         Comment comment = new Comment()
                 .setBook(book)
@@ -35,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment removeComment(long id) {
+    public Comment remove(long id) {
         Comment comment  = commentRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException(String.format("Комментарий '%s' не найден", id)));
 
@@ -48,17 +46,17 @@ public class CommentServiceImpl implements CommentService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException(String.format("Комментарии к книге с id '%s' не найдены", id)));
 
-        return commentRepository.findAllByBookContains(book);
+        return commentRepository.findAllByBook(book);
     }
 
     @Override
-    public Comment findByIdComment(long id) {
+    public Comment findById(long id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException(String.format("Комментарий '%s' не найден", id)));
     }
 
     @Override
-    public List<Comment> findAllComments() {
+    public List<Comment> findAll() {
         return commentRepository.findAll();
     }
 }

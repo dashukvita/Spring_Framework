@@ -9,37 +9,31 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@NamedEntityGraph(name = "author-genre-graph",
-        attributeNodes = {@NamedAttributeNode("genre"),
-                @NamedAttributeNode("author")}
-)
 @Accessors(chain = true)
-@Table(name = "books")
+@Table(name = "BOOKS")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     @NonNull private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "genre_id")
+    @ManyToOne(cascade = ALL)
+    @JoinColumn(name = "GENRE_ID")
     @NonNull private Genre genre;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id")
+    @ManyToOne(cascade = ALL)
+    @JoinColumn(name = "AUTHOR_ID")
     @NonNull private Author author;
 
-    @Column(name = "bookname")
-    @NonNull private String bookName;
-
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-
+    @Column(name = "TITLE")
+    @NonNull private String title;
 }

@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findAllByBookContains(Book book);
+    List<Comment> findAllByBook(Book book);
 }

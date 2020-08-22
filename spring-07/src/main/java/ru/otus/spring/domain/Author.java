@@ -11,24 +11,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "authors")
+@Table(name = "AUTHORS")
 @Accessors(chain = true)
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     @NonNull private long id;
 
-    @Column(name = "firstname")
+    @Column(name = "FIRSTNAME")
     @NonNull private String firstName;
 
-    @Column(name = "lastname")
+    @Column(name = "LASTNAME")
     @NonNull private String lastName;
 
-    @Column(name = "birthday")
+    @Column(name = "BIRTHDAY")
     private String birthday;
-
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<Book> books;
 }

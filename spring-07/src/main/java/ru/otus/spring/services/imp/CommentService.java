@@ -1,18 +1,19 @@
 package ru.otus.spring.services.imp;
 
+import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 
 import java.util.List;
 
 public interface CommentService {
 
-    Comment saveComment(String message, long book_id) throws Exception;
+    Comment save(String message, long bookId);
 
-    Comment removeComment(long id) throws Exception;
+    Comment remove(long id);
 
-    List<Comment> findByBookId(long bookId) throws Exception;
+    List<Comment> findByBookId(long bookId);
 
-    Comment findByIdComment(long id) throws Exception;
+    Comment findById(long id);
 
-    List<Comment> findAllComments();
+    List<Comment> findAll();
 }

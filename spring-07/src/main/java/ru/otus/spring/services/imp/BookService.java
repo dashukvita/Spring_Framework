@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface BookService {
 
-    Book saveBook(long genre_id, long author_id, String bookname) throws Exception;
+    Book save(long genreId, long authorId, String title);
 
-    Book removeBook(long id) throws Exception;
+    Book remove(long id);
 
-    Book findBookById(long id) throws Exception;
+    Book findById(long id);
 
-    List<Book> findByGenreBook(long genreId) throws Exception;
+    List<Book> findByGenre(long genreId);
 
-    List<Book> findByAuthorBook(long authorId) throws Exception;
+    List<Book> findByAuthor(long authorId);
 
-    List<Book> findAllBooks();
+    List<Book> findAll();
 }

@@ -4,9 +4,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.repositories.impl.AuthorRepository;
+import ru.otus.spring.repositories.impl.GenreRepository;
 import ru.otus.spring.repositories.impl.BookRepository;
 import ru.otus.spring.repositories.impl.CommentRepository;
-import ru.otus.spring.repositories.impl.GenreRepository;
 import ru.otus.spring.domain.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book saveBook(long genreId, long authorId, String bookname) throws Exception {
+    public Book save(long genreId, long authorId, String title) {
+
         Author author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new NullPointerException(String.format("Автор с id '%s' не найден", authorId)));
 
@@ -35,48 +36,45 @@ public class BookServiceImpl implements BookService {
         Book book = new Book()
                 .setGenre(genre)
                 .setAuthor(author)
-                .setBookName(bookname);
+                .setTitle(title);
 
-        bookRepository.save(book);
-        return null;
+        return bookRepository.save(book);
     }
 
     @Override
-    public Book removeBook(long id) {
+    public Book remove(long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException(String.format("Книга с id '%s' не найдена", id)));
 
-        commentRepository.findAllByBookContains(book)
-                .forEach(commentRepository::delete);
         bookRepository.delete(book);
         return book;
     }
 
     @Override
     @Transactional
-    public Book findBookById(long id) {
+    public Book findById(long id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException(String.format("Книга с id '%s' не найдена", id)));
     }
 
     @Override
-    public List<Book> findByGenreBook(long genreId) throws Exception {
+    public List<Book> findByGenre(long genreId)  {
         Genre genre = genreRepository.findById(genreId)
                 .orElseThrow(() -> new NullPointerException(String.format("Жанра с id '%s' нет в базе", genreId)));
 
-        return bookRepository.findAllByGenreContains(genre);
+        return bookRepository.findAllByGenre(genre);
     }
 
     @Override
-    public List<Book> findByAuthorBook(long authorId) throws Exception {
+    public List<Book> findByAuthor(long authorId) {
         Author author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new NullPointerException(String.format("Книги с id автора '%s' не найдены", authorId)));
 
-        return bookRepository.findAllByAuthorContains(author);
+        return bookRepository.findAllByAuthor(author);
     }
 
     @Override
-    public List<Book> findAllBooks(){
+    public List<Book> findAll(){
         return bookRepository.findAll();
     }
 

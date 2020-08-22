@@ -19,49 +19,52 @@ import static org.mockito.Mockito.when;
 @DisplayName("Класс CommentServiceImpl")
 public class CommentServiceImplTest {
 
-//    private CommentRepository commentRepository;
-//    private BookRepository bookRepository;
-//    private CommentService commentService;
-//
-//    @BeforeEach
-//    void setUp() {
-//        commentRepository = mock(CommentRepository.class);
-//        bookRepository = mock(BookRepository.class);
-//        commentService = new CommentServiceImpl(commentRepository, bookRepository);
-//    }
-//
-//    @Test
-//    @DisplayName("получение комментария из бд корректно")
-//    void getAllComments() {
-//        int id= 1;
-//        String message = "message";
-//        Book book = new Book().setId(id);
-//
-//        Comment comment = new Comment();
-//        comment.setMessage(message);
-//        comment.setBook(book);
-//
-//        when(commentRepository.findAll()).thenReturn(Collections.singletonList(comment));
-//
-//        List<Comment> resultComments = commentService.findAllComments();
-//
-//        assertThat(resultComments).isNotNull();
-//        assertThat(resultComments).containsOnly(comment);
-//    }
-//
-//    @Test
-//    @DisplayName("создание комментария корректно")
-//    void createComment() throws Exception {
-//        int id= 1;
-//        String message = "message";
-//        Book book = new Book().setId(id);
-//
-//        when(bookRepository.findById(id)).thenReturn(book);
-//
-//        Comment result = commentService.saveComment(message, id);
-//
-//        assertThat(result).isNotNull();
-//        assertThat(result.getMessage()).isEqualTo(message);
-//    }
+    private CommentRepository commentRepository;
+    private BookRepository bookRepository;
+    private CommentService commentService;
+
+    @BeforeEach
+    void setUp() {
+        commentRepository = mock(CommentRepository.class);
+        bookRepository = mock(BookRepository.class);
+        commentService = new CommentServiceImpl(commentRepository, bookRepository);
+    }
+
+    @Test
+    @DisplayName("получение комментария из бд корректно")
+    void getAllComments() {
+        long id= 1;
+        String message = "message";
+
+        Book book = new Book()
+                .setId(id);
+
+        Comment comment = new Comment()
+                .setMessage(message)
+                .setBook(book);
+
+        when(commentRepository.findAll()).thenReturn(Collections.singletonList(comment));
+
+        List<Comment> resultComments = commentService.findAll();
+
+        assertThat(resultComments).isNotNull();
+        assertThat(resultComments).containsOnly(comment);
+    }
+
+    @Test
+    @DisplayName("создание комментария корректно")
+    void createComment() {
+        long id= 1;
+        String message = "message";
+        Book book = new Book()
+                .setId(id);
+
+        when(bookRepository.findById(id)).thenReturn(java.util.Optional.ofNullable(book));
+
+        Comment result = commentService.save(message, id);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getMessage()).isEqualTo(message);
+    }
 
 }

@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface AuthorService {
 
-    Author saveAuthor(String firstName, String lastname, String birthday);
+    Author save(String firstName, String lastName, String birthday);
 
-    Author removeAuthor(long id) throws Exception;
+    Author remove(long id);
 
-    Author findByIdAuthor(long id) throws Exception;
+    Author findById(long id);
 
-    List<Author> findAllAuthors();
+    Author findByLastName(String lastName) throws Exception;
+
+    List<Author> findAll();
 }

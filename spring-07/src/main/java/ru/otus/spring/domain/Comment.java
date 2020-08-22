@@ -12,18 +12,18 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Accessors(chain = true)
 @Entity
-@Table(name = "comments")
+@Table(name = "COMMENTS")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     @NonNull private long id;
 
-    @Column(name = "message")
+    @Column(name = "MESSAGE")
     @NonNull private String message;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "BOOK_ID")
     @NonNull Book book;
 }
