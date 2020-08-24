@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
 @NamedEntityGraph(name = "author-genre-graph",
         attributeNodes = {@NamedAttributeNode("genre"),
                 @NamedAttributeNode("author")}
 )
 @Accessors(chain = true)
+@Entity
 @Table(name = "books")
 public class Book {
 
@@ -25,11 +25,11 @@ public class Book {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
@@ -37,6 +37,6 @@ public class Book {
     private String bookName;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
 }

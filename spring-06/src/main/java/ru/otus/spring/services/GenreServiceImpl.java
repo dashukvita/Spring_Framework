@@ -18,16 +18,15 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional
     public Genre saveGenre(String codegenre, String genreName){
-        Genre genre = new Genre();
-        genre.setCodeGenre(codegenre);
-        genre.setGenreName(genreName);
+        Genre genre = new Genre()
+                .setCodeGenre(codegenre)
+                .setGenreName(genreName);
 
         genreRepository.save(genre);
         return genre;
     }
 
     @Override
-    @Transactional
     public Genre removeGenre(long id)  throws Exception {
         Genre genre = genreRepository.findById(id);
 

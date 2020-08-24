@@ -9,9 +9,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @Entity
 @Table(name = "authors")
-@Accessors(chain = true)
 public class Author {
 
     @Id
@@ -28,7 +28,7 @@ public class Author {
     @Column(name = "birthday")
     private String birthday;
 
-    @OneToMany(mappedBy = "author",fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "author",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     List<Book> books;
 
 }

@@ -27,9 +27,9 @@ public class CommentServiceImpl implements CommentService {
         if(book == null){
             throw new Exception(String.format("Книги с id '%s' нет в базе", book_id));
         } else {
-            Comment comment = new Comment();
-            comment.setMessage(message);
-            comment.setBook(book);
+            Comment comment = new Comment()
+                    .setMessage(message)
+                    .setBook(book);
 
             commentRepository.save(comment);
             return comment;
@@ -37,7 +37,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public Comment removeComment(long id) throws Exception {
         Comment comment  = commentRepository.findById(id);
 
@@ -56,14 +55,7 @@ public class CommentServiceImpl implements CommentService {
         if(book.getId() == 0){
             throw new Exception(String.format("Комментарии к книги с id '%s' не найдены", bookId));
         } else {
-            List<Comment> resultComments = new ArrayList<>();
-            List<Comment> comments = commentRepository.findAll();
-            for (Comment comment: comments) {
-                if(comment.getBook().getId() == bookId){
-                    resultComments.add(comment);
-                }
-            }
-            return resultComments;
+            return book.getComments();
         }
     }
 

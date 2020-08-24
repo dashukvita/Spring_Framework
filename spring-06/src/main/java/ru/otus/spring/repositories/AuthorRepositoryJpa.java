@@ -33,7 +33,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public void remove(Author author) {
-        em.remove(em.contains(author) ? author : em.merge(author));
+        em.remove(author);
     }
 
     @Override

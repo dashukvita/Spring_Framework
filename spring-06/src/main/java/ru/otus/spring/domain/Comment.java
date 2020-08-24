@@ -3,6 +3,7 @@ package ru.otus.spring.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -10,6 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @Entity
 @NamedEntityGraph(name = "book-entity-graph",
         attributeNodes = {@NamedAttributeNode("book")}
@@ -25,7 +27,7 @@ public class Comment {
     @Column(name = "message", nullable = false)
     private String message;
 
-    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne (cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
     Book book;
 

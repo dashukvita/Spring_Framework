@@ -33,7 +33,7 @@ public class GenreRepositoryJpa implements GenreRepository {
 
     @Override
     public void remove(Genre genre) {
-        em.remove(em.contains(genre) ? genre : em.merge(genre));
+        em.remove(genre);
     }
 
     @Override

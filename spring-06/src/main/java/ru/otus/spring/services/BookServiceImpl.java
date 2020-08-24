@@ -33,10 +33,10 @@ public class BookServiceImpl implements BookService {
          } else if(genre == null){
              throw new Exception(String.format("Жанр с id '%s' не найден", genreId));
          } else{
-             Book book = new Book();
-             book.setGenre(genre);
-             book.setAuthor(author);
-             book.setBookName(bookname);
+             Book book = new Book()
+                     .setGenre(genre)
+                     .setAuthor(author)
+                     .setBookName(bookname);
 
              bookRepository.save(book);
              return book;
@@ -44,7 +44,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public Book removeBook(long id) throws Exception {
         Book book = bookRepository.findById(id);
         if(book == null){
@@ -56,7 +55,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public Book findByIdBook(long id) throws Exception {
         Book book = bookRepository.findById(id);
 
@@ -74,14 +72,7 @@ public class BookServiceImpl implements BookService {
         if(genre == null){
             throw new Exception(String.format("Книги жанра с id '%s' не найдены", genreId));
         } else{
-            List<Book> resultBooks = new ArrayList<>();
-            List<Book> books = bookRepository.findAll();
-            for (Book book: books) {
-                if(book.getGenre().getId() == genreId){
-                    resultBooks.add(book);
-                }
-            }
-            return resultBooks;
+            return genre.getBooks();
         }
     }
 
@@ -92,14 +83,7 @@ public class BookServiceImpl implements BookService {
         if(author == null){
             throw new Exception(String.format("Книги с id автора '%s' не найдены", authorId));
         } else {
-            List<Book> resultBooks = new ArrayList<>();
-            List<Book> books = bookRepository.findAll();
-            for (Book book: books) {
-                if(book.getAuthor().getId() == authorId){
-                    resultBooks.add(book);
-                }
-            }
-            return resultBooks;
+            return author.getBooks();
         }
     }
 

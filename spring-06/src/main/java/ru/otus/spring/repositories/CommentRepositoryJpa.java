@@ -29,7 +29,7 @@ public class CommentRepositoryJpa implements CommentRepository {
 
     @Override
     public void remove(Comment comment) {
-        em.remove(em.contains(comment) ? comment : em.merge(comment));
+        em.remove(comment);;
     }
 
     @Override

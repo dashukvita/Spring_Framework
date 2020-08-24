@@ -18,17 +18,16 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public Author saveAuthor(String firstName, String lastname, String birthday){
-        Author author = new Author();
-        author.setFirstName(firstName);
-        author.setLastName(lastname);
-        author.setBirthday(birthday);
+        Author author = new Author()
+                .setFirstName(firstName)
+                .setLastName(lastname)
+                .setBirthday(birthday);
 
         authorRepository.save(author);
         return author;
     }
 
     @Override
-    @Transactional
     public Author removeAuthor(long id) throws Exception {
         Author author = authorRepository.findById(id);
 

@@ -30,7 +30,7 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public void remove(Book book) {
-        em.remove(em.contains(book) ? book : em.merge(book));
+        em.remove(book);;
     }
 
     @Override
