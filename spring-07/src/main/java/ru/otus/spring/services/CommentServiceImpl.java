@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
-import ru.otus.spring.repositories.impl.BookRepository;
-import ru.otus.spring.repositories.impl.CommentRepository;
+import ru.otus.spring.repositories.BookRepository;
+import ru.otus.spring.repositories.CommentRepository;
 import ru.otus.spring.services.imp.CommentService;
 
 import java.util.List;

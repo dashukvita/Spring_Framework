@@ -26,11 +26,11 @@ public class Book {
     @Column(name = "ID")
     @NonNull private long id;
 
-    @ManyToOne(cascade = ALL)
+    @ManyToOne(cascade = PERSIST)
     @JoinColumn(name = "GENRE_ID")
     @NonNull private Genre genre;
 
-    @ManyToOne(cascade = ALL)
+    @ManyToOne(cascade = PERSIST)
     @JoinColumn(name = "AUTHOR_ID")
     @NonNull private Author author;
 

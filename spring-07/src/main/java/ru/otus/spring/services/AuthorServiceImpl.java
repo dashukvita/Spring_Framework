@@ -4,9 +4,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.domain.Book;
-import ru.otus.spring.repositories.impl.AuthorRepository;
-import ru.otus.spring.repositories.impl.BookRepository;
+import ru.otus.spring.repositories.AuthorRepository;
+import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.services.imp.AuthorService;
 
 import java.util.List;

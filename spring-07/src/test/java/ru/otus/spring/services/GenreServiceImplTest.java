@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.spring.domain.Genre;
-import ru.otus.spring.repositories.impl.GenreRepository;
+import ru.otus.spring.repositories.GenreRepository;
 import ru.otus.spring.services.imp.GenreService;
 
 import java.util.ArrayList;

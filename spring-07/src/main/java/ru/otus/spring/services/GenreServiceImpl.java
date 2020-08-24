@@ -1,7 +1,7 @@
 package ru.otus.spring.services;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.repositories.impl.GenreRepository;
+import ru.otus.spring.repositories.GenreRepository;
 import ru.otus.spring.domain.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

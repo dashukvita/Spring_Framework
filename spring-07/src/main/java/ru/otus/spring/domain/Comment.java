@@ -4,6 +4,9 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Setter
@@ -23,7 +26,7 @@ public class Comment {
     @Column(name = "MESSAGE")
     @NonNull private String message;
 
-    @ManyToOne
+    @ManyToOne(cascade = PERSIST)
     @JoinColumn(name = "BOOK_ID")
     @NonNull Book book;
 }
