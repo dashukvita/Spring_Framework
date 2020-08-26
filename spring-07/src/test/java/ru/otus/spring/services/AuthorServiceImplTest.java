@@ -20,14 +20,12 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 public class AuthorServiceImplTest {
 
     private AuthorRepository authorRepository;
-    private BookRepository bookRepository;
     private AuthorService authorService;
 
     @BeforeEach
     void setUp() {
         authorRepository = mock(AuthorRepository.class);
-        bookRepository = mock(BookRepository.class);
-        authorService = new AuthorServiceImpl(authorRepository, bookRepository);
+        authorService = new AuthorServiceImpl(authorRepository);
     }
 
     @Test

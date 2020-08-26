@@ -5,7 +5,6 @@ import ru.otus.spring.domain.Author;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.repositories.AuthorRepository;
-import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.services.imp.AuthorService;
 
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
-    private final BookRepository bookRepository;
 
     @Override
     @Transactional

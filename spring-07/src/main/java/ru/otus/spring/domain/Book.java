@@ -26,14 +26,17 @@ public class Book {
     @Column(name = "ID")
     @NonNull private long id;
 
-    @ManyToOne(cascade = PERSIST)
-    @JoinColumn(name = "GENRE_ID")
-    @NonNull private Genre genre;
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "GENRE_ID", nullable = false)
+    private Genre genre;
 
-    @ManyToOne(cascade = PERSIST)
-    @JoinColumn(name = "AUTHOR_ID")
-    @NonNull private Author author;
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "AUTHOR_ID", nullable = false)
+    private Author author;
 
     @Column(name = "TITLE")
     @NonNull private String title;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Comment> comments = new ArrayList<>();
 }

@@ -28,4 +28,7 @@ public class Author {
 
     @Column(name = "BIRTHDAY")
     private String birthday;
+
+    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    List<Book> books;
 }

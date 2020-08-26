@@ -26,7 +26,7 @@ public class Comment {
     @Column(name = "MESSAGE")
     @NonNull private String message;
 
-    @ManyToOne(cascade = PERSIST)
-    @JoinColumn(name = "BOOK_ID")
-    @NonNull Book book;
+    @ManyToOne (cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "BOOK_ID", nullable = false)
+    Book book;
 }

@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
         Genre genre = genreRepository.findById(genreId)
                 .orElseThrow(() -> new NullPointerException(String.format("Жанра с id '%s' нет в базе", genreId)));
 
-        return bookRepository.findAllByGenre(genre);
+        return genre.getBooks();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class BookServiceImpl implements BookService {
         Author author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new NullPointerException(String.format("Книги с id автора '%s' не найдены", authorId)));
 
-        return bookRepository.findAllByAuthor(author);
+        return author.getBooks();
     }
 
     @Override

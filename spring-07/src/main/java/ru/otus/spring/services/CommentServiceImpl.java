@@ -46,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException(String.format("Комментарии к книге с id '%s' не найдены", id)));
 
-        return commentRepository.findAllByBook(book);
+        return book.getComments();
     }
 
     @Override

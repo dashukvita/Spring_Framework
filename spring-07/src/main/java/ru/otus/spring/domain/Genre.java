@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
@@ -23,4 +24,7 @@ public class Genre {
 
     @Column(name = "TITLE", unique = true)
     @NonNull private String title;
+
+    @OneToMany(mappedBy = "genre", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    List<Book> books;
 }
