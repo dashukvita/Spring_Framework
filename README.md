@@ -8,3 +8,4 @@ padding-left:10px">
 <p>3. <a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-03">Spring Boot</a></p>
 <p>4. <a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-04">Продвинутая конфигурация Spring-приложений, Spring Shell</a></p>
 <p>5. <a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-05">DAO на Spring JDBC</a></p>
+<p>6. <a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-06">JPQL, Spring ORM, DAO на основе Spring ORM + JPA</a></p>
