@@ -8,4 +8,4 @@ padding-left:10px">
 <p><a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-03">3. Spring Boot</a></p>
 <p><a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-04">4. Продвинутая конфигурация Spring-приложений, Spring Shell</a></p>
 <p><a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-05">5. DAO на Spring JDBC</a></p>
-<p><a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-06">6. JPQL, Spring ORM, DAO на основе Spring ORM + JPA</a></p>
+<p><a href="https://github.com/dashukvita/Spring_Framework_Otus/tree/master/spring-06">6. JPQL, Spring ORM, DAO на основе Spring ORM+JPA</a></p>
