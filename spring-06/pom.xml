@@ -14,7 +14,7 @@
     <properties>
         <java.version>11</java.version>
         <postgresql.version>42.2.11.jre7</postgresql.version>
-        <h2database.version>1.4.200</h2database.version>
+        <h2database.version>2.1.210</h2database.version>
 
         <lombok.version>1.18.12</lombok.version>
         <shell.version>2.0.1.RELEASE</shell.version>
