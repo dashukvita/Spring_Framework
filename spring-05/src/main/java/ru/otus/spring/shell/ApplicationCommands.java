@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.spring.domain.Author;
-import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Genre;
-import ru.otus.spring.services.imp.AuthorService;
-import ru.otus.spring.services.imp.BookService;
-import ru.otus.spring.services.imp.GenreService;
+import ru.otus.spring.entity.Author;
+import ru.otus.spring.entity.Book;
+import ru.otus.spring.entity.Genre;
+import ru.otus.spring.service.imp.AuthorService;
+import ru.otus.spring.service.imp.BookService;
+import ru.otus.spring.service.imp.GenreService;
 
 import java.util.Optional;
 

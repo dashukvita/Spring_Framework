@@ -8,9 +8,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import ru.otus.spring.dao.impl.BookDao;
-import ru.otus.spring.domain.Author;
-import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Genre;
+import ru.otus.spring.entity.Author;
+import ru.otus.spring.entity.Book;
+import ru.otus.spring.entity.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

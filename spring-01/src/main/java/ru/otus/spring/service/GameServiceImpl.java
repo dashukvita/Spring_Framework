@@ -1,5 +1,5 @@
 package ru.otus.spring.service;
-import ru.otus.spring.domain.Student;
+import ru.otus.spring.entity.Student;
 
 import java.util.ArrayList;
 import java.util.Map;

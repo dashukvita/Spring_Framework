@@ -1,6 +1,6 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.domain.User;
+import ru.otus.spring.entity.User;
 
 public interface MessageService {
 

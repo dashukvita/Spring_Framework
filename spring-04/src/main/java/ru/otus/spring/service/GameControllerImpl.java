@@ -2,7 +2,7 @@ package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import ru.otus.spring.domain.User;
+import ru.otus.spring.entity.User;
 
 import java.util.ArrayList;
 import java.util.Map;

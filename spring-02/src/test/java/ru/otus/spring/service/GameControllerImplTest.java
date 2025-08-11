@@ -3,8 +3,8 @@ package ru.otus.spring.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.domain.Question;
-import ru.otus.spring.domain.User;
+import ru.otus.spring.entity.Question;
+import ru.otus.spring.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;

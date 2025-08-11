@@ -1,7 +1,6 @@
 package ru.otus.spring.dao.impl;
 
-import ru.otus.spring.domain.Author;
-import ru.otus.spring.domain.Genre;
+import ru.otus.spring.entity.Genre;
 
 import java.util.List;
 import java.util.Optional;

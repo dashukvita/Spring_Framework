@@ -1,14 +1,12 @@
 package ru.otus.spring.dao;
 
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import ru.otus.spring.dao.impl.AuthorDao;
-import ru.otus.spring.domain.Author;
+import ru.otus.spring.entity.Author;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
