@@ -5,9 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import ru.otus.spring.entity.Genre;
-import ru.otus.spring.repository.GenreRepositoryJpa;
+import ru.otus.spring.repository.GenreRepository;
 
 import java.util.List;
 
@@ -16,19 +15,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @DataJpaTest
-@Import(GenreRepositoryJpa.class)
 @AutoConfigureTestDatabase(replace = NONE)
-@DisplayName("Класс GenreRepositoryJpa")
-public class GenreRepositoryJpaTest {
+@DisplayName("GenreRepositoryJpa")
+public class GenreRepositoryTest {
 
     @Autowired
-    private GenreRepositoryJpa genreRepositoryJpa;
+    private GenreRepository genreRepository;
 
     @Test
     @DisplayName("получение жанра по id из бд корректно")
     void getById() {
         int id = 1;
-        Genre genre = genreRepositoryJpa.findById(id);
+        Genre genre = genreRepository.findById(id);
 
         assertThat(genre).isNotNull();
         assertThat(genre.getGenreName()).isEqualTo("Детектив");
@@ -38,7 +36,7 @@ public class GenreRepositoryJpaTest {
     @Test
     @DisplayName("все жанры из бд получены")
     void findAll() {
-        List<Genre> genre = genreRepositoryJpa.findAll();
+        List<Genre> genre = genreRepository.findAll();
 
         assertThat(genre).isNotNull();
         assertEquals(genre.size(), 2);
@@ -53,8 +51,8 @@ public class GenreRepositoryJpaTest {
         genre.setCodeGenre(codeGenre);
         genre.setGenreName(genreName);
 
-        genreRepositoryJpa.save(genre);
-        List<Genre> genres = genreRepositoryJpa.findAll();
+        genreRepository.save(genre);
+        List<Genre> genres = genreRepository.findAll();
 
 
         assertThat(genres.get(2)).isEqualToIgnoringGivenFields(genre, "id");
@@ -64,9 +62,9 @@ public class GenreRepositoryJpaTest {
     @DisplayName("удаление жанра из бд корректно")
     void delete() {
         int id = 2;
-        Genre genre = genreRepositoryJpa.findById(id);
-        genreRepositoryJpa.remove(genre);
-        List<Genre> genres  = genreRepositoryJpa.findAll();
+        Genre genre = genreRepository.findById(id);
+        genreRepository.delete(genre);
+        List<Genre> genres  = genreRepository.findAll();
 
         assertEquals(genres.size(), 1);
     }

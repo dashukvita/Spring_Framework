@@ -5,11 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.entity.Book;
 import ru.otus.spring.entity.Comment;
-import ru.otus.spring.repository.impl.BookRepository;
-import ru.otus.spring.repository.impl.CommentRepository;
-import ru.otus.spring.service.imp.CommentService;
+import ru.otus.spring.exception.BookNotFoundException;
+import ru.otus.spring.exception.CommentNotFoundException;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.CommentRepository;
+import ru.otus.spring.service.CommentService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,58 +23,37 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Comment saveComment(String message, long book_id) throws Exception {
-        Book book = bookRepository.findById(book_id);
+    public Comment createComment(String message, Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id " + bookId + " not found."));
 
-        if(book == null){
-            throw new Exception(String.format("Книги с id '%s' нет в базе", book_id));
-        } else {
-            Comment comment = new Comment()
-                    .setMessage(message)
-                    .setBook(book);
+        Comment comment = new Comment()
+                .setMessage(message)
+                .setBook(book);
 
-            commentRepository.save(comment);
-            return comment;
-        }
+        commentRepository.save(comment);
+        return comment;
     }
 
     @Override
-    public Comment removeComment(long id) throws Exception {
-        Comment comment  = commentRepository.findById(id);
-
-        if(comment == null){
-            throw new Exception(String.format("Комментария с id '%s' нет в базе", id));
-        } else {
-            commentRepository.remove(comment);
-            return comment;
-        }
+    @Transactional
+    public void deleteComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Comment with id " + id + " not found."));
+        commentRepository.delete(comment);
     }
 
     @Override
-    public List<Comment> findByBookId(long bookId) throws Exception {
-        Book book = bookRepository.findById(bookId);
-
-        if(book.getId() == 0){
-            throw new Exception(String.format("Комментарии к книги с id '%s' не найдены", bookId));
-        } else {
-            return book.getComments();
-        }
+    public List<Comment> findByBookId(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Comments for book with id " + bookId + " not found."));
+        return commentRepository.findByBook(book);
     }
 
     @Override
-    public Comment findByIdComment(long id) throws Exception {
-        Comment comment  = commentRepository.findById(id);
-
-        if(comment == null){
-            throw new Exception(String.format("Комментарий с id '%s' не найден", id));
-        } else {
-            commentRepository.remove(comment);
-            return comment;
-        }
+    public Optional<Comment> findById(Long id) {
+        return commentRepository.findById(id);
     }
 
     @Override
-    public List<Comment> findAllComments() {
+    public List<Comment> findAll() {
         return commentRepository.findAll();
     }
 }
