@@ -1,9 +1,9 @@
-drop table if exists comments;
-drop table if exists books;
-drop table if exists authors;
-drop table if exists genres;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS genres;
 
-create table authors
+CREATE TABLE authors
 (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(20) NOT NULL,
@@ -11,14 +11,14 @@ create table authors
     birthday VARCHAR(20) NOT NULL
 );
 
-create table genres
+CREATE TABLE genres
 (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     codegenre VARCHAR(2) NOT NULL,
     genre VARCHAR(200) NOT NULL
 );
 
-create table books
+CREATE TABLE books
 (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     genre_id BIGINT,
@@ -28,7 +28,7 @@ create table books
     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
 );
 
-create table comments
+CREATE TABLE comments
 (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     message VARCHAR(255) NOT NULL,

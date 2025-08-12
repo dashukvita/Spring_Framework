@@ -29,8 +29,8 @@ public class GenreRepositoryTest {
         Genre genre = genreRepository.findById(id).orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found."));
 
         assertThat(genre).isNotNull();
-        assertThat(genre.getGenreName()).isEqualTo("Детектив");
-        assertThat(genre.getCodeGenre()).isEqualTo("ХЛ");
+        assertThat(genre.getGenreName()).isEqualTo("Detective");
+        assertThat(genre.getCodeGenre()).isEqualTo("CL");
     }
 
     @Test

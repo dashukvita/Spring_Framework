@@ -39,7 +39,7 @@ public class BookRepositoryTest {
         assertThat(book).isNotNull();
         assertThat(book.getBookName()).isEqualTo("Book1");
         assertThat(book.getAuthor().getFirstName()).isEqualTo("Author1");
-        assertThat(book.getGenre().getGenreName()).isEqualTo("Детектив");
+        assertThat(book.getGenre().getGenreName()).isEqualTo("Detective");
     }
 
     @Test
@@ -67,7 +67,7 @@ public class BookRepositoryTest {
         assertThat(books).hasSize(3);
         Book lastBook = books.get(books.size() - 1);
         assertThat(lastBook.getAuthor().getLastName()).isEqualTo("Author1");
-        assertThat(lastBook.getGenre().getGenreName()).isEqualTo("Детектив");
+        assertThat(lastBook.getGenre().getGenreName()).isEqualTo("Detective");
     }
 
     @Test

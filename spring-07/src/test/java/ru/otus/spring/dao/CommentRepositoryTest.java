@@ -29,13 +29,13 @@ public class CommentRepositoryTest {
     private BookRepository bookRepository;
 
     @Test
-    @DisplayName("fetching comments by id fron db is correct")
+    @DisplayName("fetching comments by id from db is correct")
     void getById() {
         Long id = 1L;
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException("Comment with id " + id + " not found."));
 
         assertThat(comment).isNotNull();
-        assertThat(comment.getMessage()).isEqualTo("Comments1");
+        assertThat(comment.getMessage()).isEqualTo("Comment1");
         assertThat(comment.getBook().getId()).isEqualTo(1);
     }
 

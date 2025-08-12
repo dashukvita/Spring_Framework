@@ -32,7 +32,7 @@ class AuthorRepositoryTest {
         assertThat(author).isNotNull();
         assertThat(author.getFirstName()).isEqualTo("Author1");
         assertThat(author.getLastName()).isEqualTo("Author1");
-        assertThat(author.getBirthday()).isEqualTo("31.07.1965");
+        assertThat(author.getBirthday()).isEqualTo("1965-07-31");
     }
 
     @Test
