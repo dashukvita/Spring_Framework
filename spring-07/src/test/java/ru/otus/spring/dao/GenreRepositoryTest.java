@@ -6,27 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.otus.spring.entity.Genre;
+import ru.otus.spring.exception.GenreNotFoundException;
 import ru.otus.spring.repository.GenreRepository;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = NONE)
-@DisplayName("GenreRepositoryJpa")
+@DisplayName("GenreRepository")
 public class GenreRepositoryTest {
 
     @Autowired
     private GenreRepository genreRepository;
 
     @Test
-    @DisplayName("получение жанра по id из бд корректно")
+    @DisplayName("fetching genre by id from db is correct")
     void getById() {
-        int id = 1;
-        Genre genre = genreRepository.findById(id);
+        Long id = 1L;
+        Genre genre = genreRepository.findById(id).orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found."));
 
         assertThat(genre).isNotNull();
         assertThat(genre.getGenreName()).isEqualTo("Детектив");
@@ -34,17 +34,19 @@ public class GenreRepositoryTest {
     }
 
     @Test
-    @DisplayName("все жанры из бд получены")
+    @DisplayName("all genres are fetching from db")
     void findAll() {
         List<Genre> genre = genreRepository.findAll();
 
         assertThat(genre).isNotNull();
-        assertEquals(genre.size(), 2);
+        assertThat(genre).hasSize(2);
     }
 
     @Test
-    @DisplayName("добавление жанра в бд корректно")
+    @DisplayName("adding genre from db is correct")
     void create() {
+        int beforeCount = genreRepository.findAll().size();
+
         String genreName = "Genre3";
         String codeGenre = "G3";
         Genre genre = new Genre();
@@ -54,18 +56,23 @@ public class GenreRepositoryTest {
         genreRepository.save(genre);
         List<Genre> genres = genreRepository.findAll();
 
-
-        assertThat(genres.get(2)).isEqualToIgnoringGivenFields(genre, "id");
+        assertThat(genres).hasSize(beforeCount + 1);
+        assertThat(genres).anySatisfy(g -> {
+            assertThat(g.getCodeGenre()).isEqualTo(codeGenre);
+            assertThat(g.getGenreName()).isEqualTo(genreName);
+        });
     }
 
     @Test
-    @DisplayName("удаление жанра из бд корректно")
+    @DisplayName("deleting genre from db is correct")
     void delete() {
-        int id = 2;
-        Genre genre = genreRepository.findById(id);
+        int beforeCount = genreRepository.findAll().size();
+
+        Long id = 2L;
+        Genre genre = genreRepository.findById(id).orElseThrow(() -> new GenreNotFoundException("Genre with id " + id + " not found."));
         genreRepository.delete(genre);
         List<Genre> genres  = genreRepository.findAll();
 
-        assertEquals(genres.size(), 1);
+        assertThat(genres).hasSize(beforeCount - 1);
     }
 }

@@ -3,22 +3,24 @@ package ru.otus.spring.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.repository.impl.AuthorRepository;
-import ru.otus.spring.repository.impl.BookRepository;
-import ru.otus.spring.repository.impl.GenreRepository;
 import ru.otus.spring.entity.Author;
 import ru.otus.spring.entity.Book;
 import ru.otus.spring.entity.Genre;
-import ru.otus.spring.service.imp.BookService;
+import ru.otus.spring.exception.AuthorNotFoundException;
+import ru.otus.spring.exception.BookNotFoundException;
+import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.GenreRepository;
+import ru.otus.spring.service.imp.BookServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-@DisplayName("Класс BookServiceImpl")
+@DisplayName("BookServiceImpl")
 public class BookServiceImplTest {
 
     private AuthorRepository authorRepository;
@@ -36,40 +38,48 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("получение книги по id из бд корректно")
+    @DisplayName("fetching book by id from db is correct")
     void getBook() throws Exception {
-        long id = 3;
+        Long id = 3L;
         String bookName = "Book3";
+
+        Genre genre = new Genre()
+                .setId(id);
+
+        Author author = new Author()
+                .setId(id);
+
         Book book = new Book()
-                .setGenre(genreRepository.findById(1))
-                .setAuthor(authorRepository.findById(1))
+                .setGenre(genre)
+                .setAuthor(author)
                 .setBookName(bookName);
-        when(bookRepository.findById(id)).thenReturn(book);
 
-        Book resultBook = bookService.findByIdBook(id);
+        when(genreRepository.findById(id)).thenReturn(Optional.of(genre));
+        when(authorRepository.findById(id)).thenReturn(Optional.of(author));
+        when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 
-        assertThat(resultBook).isNotNull();
-        assertThat(resultBook).isEqualTo(book);
+        Book resultBook = bookService.findById(id).orElseThrow(() -> new BookNotFoundException("Book with id " + id + " not found."));
+
+        assertThat(resultBook).isNotNull().isEqualTo(book);
         verify(bookRepository).findById(id);
         verifyNoMoreInteractions(bookRepository);
     }
 
     @Test
-    @DisplayName("получение всех книг из бд корректно")
+    @DisplayName("fetching all books from db is correct")
     void getAllBooks() {
-        ArrayList<Book> books = new ArrayList<>();
+        List<Book> books = List.of(new Book().setId(1L).setBookName("B1"));
         when(bookRepository.findAll()).thenReturn(books);
 
-        List<Book> allBooks = bookService.findAllBooks();
+        List<Book> allBooks = bookService.findAll();
 
-        assertThat(allBooks).isNotNull();
-        assertThat(allBooks).isEqualTo(books);
+        assertThat(allBooks).isNotNull().hasSize(1).isEqualTo(books);
         verify(bookRepository).findAll();
         verifyNoMoreInteractions(bookRepository);
     }
 
     @Test
-    @DisplayName("создание книги корректно")
+    @DisplayName("creating book is correct")
     void createBook() throws Exception {
         String firstName = "Author3";
         String lastName = "Author3";
@@ -89,41 +99,38 @@ public class BookServiceImplTest {
         author.setLastName(lastName);
         author.setBirthday(birthDay);
 
-        when(authorRepository.findById(author.getId())).thenReturn(author);
-        when(genreRepository.findById(genre.getId())).thenReturn(genre);
+        when(authorRepository.findById(author.getId())).thenReturn(Optional.of(author));
+        when(genreRepository.findById(genre.getId())).thenReturn(Optional.of(genre));
 
-        Book resultBook = bookService.saveBook(genre.getId(), author.getId(), bookName);
+        Book resultBook = bookService.createBook(genre.getId(), author.getId(), bookName);
 
         assertThat(resultBook).isNotNull();
         assertThat(resultBook.getBookName()).isEqualTo(bookName);
         assertThat(resultBook.getAuthor().getId()).isEqualTo(author.getId());
         assertThat(resultBook.getGenre()).isEqualTo(genre);
+
         verify(bookRepository).save(any(Book.class));
         verify(authorRepository).findById(author.getId());
         verify(genreRepository).findById(genre.getId());
+
         verifyNoMoreInteractions(bookRepository);
         verifyNoMoreInteractions(authorRepository);
         verifyNoMoreInteractions(genreRepository);
     }
 
     @Test
-    @DisplayName("удаление книги из бд корректно")
+    @DisplayName("deleting book from db is correct")
     void deleteBook() throws Exception {
-        int id = 1;
+        Long id = 1L;
         Book book = new Book()
                 .setId(id);
 
-        when(bookRepository.findById(id)).thenReturn(book);
+        when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 
-        Book resultBook = bookService.removeBook(id);
-
-        assertThat(resultBook).isNotNull();
-        assertThat(resultBook.getId()).isEqualTo(id);
+        bookService.deleteBook(id);
 
         verify(bookRepository).findById(id);
-        verify(bookRepository).remove(book);
-
-        verifyNoMoreInteractions(bookRepository);
-        verifyNoMoreInteractions(authorRepository);
+        verify(bookRepository).delete(book);
+        verifyNoMoreInteractions(bookRepository, authorRepository, genreRepository);
     }
 }

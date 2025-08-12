@@ -12,6 +12,16 @@ spring:
 
     show-sql: true
 
+  shell:
+    interactive:
+      enabled: true
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
 
 logging:
     level:

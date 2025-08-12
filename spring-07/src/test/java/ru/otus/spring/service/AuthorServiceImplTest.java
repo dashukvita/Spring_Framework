@@ -3,11 +3,11 @@ package ru.otus.spring.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.spring.repository.impl.AuthorRepository;
+import org.mockito.ArgumentCaptor;
 import ru.otus.spring.entity.Author;
-import ru.otus.spring.service.imp.AuthorService;
+import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.service.imp.AuthorServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 
-@DisplayName("Класс AuthorService")
+@DisplayName("AuthorService")
 public class AuthorServiceImplTest {
 
     private AuthorRepository authorRepository;
@@ -28,33 +28,38 @@ public class AuthorServiceImplTest {
     }
 
     @Test
-    @DisplayName("получение авторов из бд корректно")
+    @DisplayName("fetching authors from db is correct")
     void getAllAuthors() {
-        ArrayList<Author> authors = new ArrayList<>();
+        List<Author> authors = List.of(
+                new Author().setId(1L).setFirstName("Author1").setLastName("Last1").setBirthday("01.01.2000")
+        );
         when(authorRepository.findAll()).thenReturn(authors);
 
-        List<Author> resultAuthors = authorService.findAllAuthors();
+        List<Author> resultAuthors = authorService.findAll();
 
-        assertThat(resultAuthors).isNotNull();
-        assertThat(resultAuthors).isEqualTo(authors);
+        assertThat(resultAuthors).isNotNull().hasSize(1);
+        assertThat(resultAuthors.get(0).getFirstName()).isEqualTo("Author1");
         verify(authorRepository).findAll();
         verifyNoMoreInteractions(authorRepository);
     }
 
     @Test
-    @DisplayName("создание автора корректно")
+    @DisplayName("creating author is correct")
     void createAuthor() {
         String firstName = "Author3";
         String lastName = "Author3";
         String birthday = "01.01.2020";
 
-        Author resultAuthor = authorService.saveAuthor(firstName, lastName, birthday);
+        ArgumentCaptor<Author> captor = ArgumentCaptor.forClass(Author.class);
 
-        assertThat(resultAuthor).isNotNull();
-        assertThat(resultAuthor.getFirstName()).isEqualTo(firstName);
-        assertThat(resultAuthor.getLastName()).isEqualTo(lastName);
-        assertThat(resultAuthor.getBirthday()).isEqualTo(birthday);
-        verify(authorRepository).save(any(Author.class));
+        authorService.createAuthor(firstName, lastName, birthday);
+
+        verify(authorRepository).save(captor.capture());
+        Author savedAuthor = captor.getValue();
+        assertThat(savedAuthor.getFirstName()).isEqualTo(firstName);
+        assertThat(savedAuthor.getLastName()).isEqualTo(lastName);
+        assertThat(savedAuthor.getBirthday()).isEqualTo(birthday);
+
         verifyNoMoreInteractions(authorRepository);
     }
 }
