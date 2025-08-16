@@ -18,8 +18,8 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author createAuthor(String firstName, String lastName, String birthday) {
         Author author = Author.builder()
-                .firstName(firstName)
-                .lastName(lastName)
+                .name(firstName)
+                .surname(lastName)
                 .birthday(birthday)
                 .build();
 

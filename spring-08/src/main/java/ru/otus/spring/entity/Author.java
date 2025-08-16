@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Author {
     @Id
     private String id;
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String surname;
     private String birthday;
 }
