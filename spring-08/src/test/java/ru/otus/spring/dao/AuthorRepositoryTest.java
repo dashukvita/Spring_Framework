@@ -25,8 +25,8 @@ class AuthorRepositoryTest {
     @DisplayName("fetching author by id from database is correct")
     void getById() {
         Author savedAuthor = authorRepository.save(Author.builder()
-                .firstName("Author3")
-                .lastName("Author3")
+                .name("Author3")
+                .surname("Author3")
                 .birthday("1965-07-31")
                 .build());
 
@@ -34,8 +34,8 @@ class AuthorRepositoryTest {
                 .orElseThrow(() -> new AuthorNotFoundException("Author with id " + savedAuthor.getId() + " not found."));
 
         assertThat(author).isNotNull();
-        assertThat(author.getFirstName()).isEqualTo("Author3");
-        assertThat(author.getLastName()).isEqualTo("Author3");
+        assertThat(author.getName()).isEqualTo("Author3");
+        assertThat(author.getSurname()).isEqualTo("Author3");
         assertThat(author.getBirthday()).isEqualTo("1965-07-31");
     }
 
@@ -56,8 +56,8 @@ class AuthorRepositoryTest {
         String birthDay = "05.01.1932";
 
         Author author = Author.builder()
-                .firstName(firstName)
-                .lastName(lastName)
+                .name(firstName)
+                .surname(lastName)
                 .birthday(birthDay)
                 .build();
 
@@ -65,8 +65,8 @@ class AuthorRepositoryTest {
         List<Author> authors = authorRepository.findAll();
 
         assertThat(authors).anySatisfy(a -> {
-            assertThat(a.getFirstName()).isEqualTo(firstName);
-            assertThat(a.getLastName()).isEqualTo(lastName);
+            assertThat(a.getName()).isEqualTo(firstName);
+            assertThat(a.getSurname()).isEqualTo(lastName);
             assertThat(a.getBirthday()).isEqualTo(birthDay);
         });
         assertEquals(4, authors.size());
@@ -76,8 +76,8 @@ class AuthorRepositoryTest {
     @DisplayName("deleting author from db is correct")
     void delete() {
         Author savedAuthor = authorRepository.save(Author.builder()
-                .firstName("Author5")
-                .lastName("Author5")
+                .name("Author5")
+                .surname("Author5")
                 .birthday("1990-07-31")
                 .build());
 

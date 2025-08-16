@@ -23,13 +23,13 @@ public class DatabaseChangelog {
     @ChangeSet(order = "002", id= "dropDb", author = "admin", runAlways = true)
     public void initAuthors(final AuthorRepository authorsRepository) {
         authorsRepository.save(Author.builder()
-                .firstName("Author1")
-                .lastName("Author1")
+                .name("Author1")
+                .surname("Author1")
                 .birthday("1965-07-31")
                 .build());
         authorsRepository.save(Author.builder()
-                .firstName("Author2")
-                .lastName("Author2")
+                .name("Author2")
+                .surname("Author2")
                 .birthday("1932-01-05")
                 .build());
     }

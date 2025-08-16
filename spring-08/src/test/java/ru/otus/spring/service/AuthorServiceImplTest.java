@@ -57,8 +57,8 @@ public class AuthorServiceImplTest {
 
         verify(authorRepository).save(captor.capture());
         Author savedAuthor = captor.getValue();
-        assertThat(savedAuthor.getFirstName()).isEqualTo(firstName);
-        assertThat(savedAuthor.getLastName()).isEqualTo(lastName);
+        assertThat(savedAuthor.getName()).isEqualTo(firstName);
+        assertThat(savedAuthor.getSurname()).isEqualTo(lastName);
         assertThat(savedAuthor.getBirthday()).isEqualTo(birthday);
 
         verifyNoMoreInteractions(authorRepository);
