@@ -3,8 +3,7 @@ package ru.otus.spring.dao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.spring.entity.Author;
 import ru.otus.spring.exception.AuthorNotFoundException;
 import ru.otus.spring.repository.AuthorRepository;
@@ -14,10 +13,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = NONE)
+@SpringBootTest
 @DisplayName("AuthorRepository")
 class AuthorRepositoryTest {
 
@@ -27,11 +24,18 @@ class AuthorRepositoryTest {
     @Test
     @DisplayName("fetching author by id from database is correct")
     void getById() {
-        Author author = authorRepository.findById(1L).orElseThrow(() -> new AuthorNotFoundException("Author with id " + 1L + " not found."));
+        Author savedAuthor = authorRepository.save(Author.builder()
+                .firstName("Author3")
+                .lastName("Author3")
+                .birthday("1965-07-31")
+                .build());
+
+        Author author = authorRepository.findById(savedAuthor.getId())
+                .orElseThrow(() -> new AuthorNotFoundException("Author with id " + savedAuthor.getId() + " not found."));
 
         assertThat(author).isNotNull();
-        assertThat(author.getFirstName()).isEqualTo("Author1");
-        assertThat(author.getLastName()).isEqualTo("Author1");
+        assertThat(author.getFirstName()).isEqualTo("Author3");
+        assertThat(author.getLastName()).isEqualTo("Author3");
         assertThat(author.getBirthday()).isEqualTo("1965-07-31");
     }
 
@@ -41,19 +45,22 @@ class AuthorRepositoryTest {
         List<Author> authors = authorRepository.findAll();
 
         assertThat(authors).isNotNull();
-        assertEquals(2, authors.size());
+        assertEquals(3, authors.size());
     }
 
     @Test
     @DisplayName("adding author is correct")
     void create() {
-        String firstName = "Author3";
-        String lastName = "Author3";
+        String firstName = "Author4";
+        String lastName = "Author4";
         String birthDay = "05.01.1932";
-        Author author = new Author()
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setBirthday(birthDay);
+
+        Author author = Author.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .birthday(birthDay)
+                .build();
+
         authorRepository.save(author);
         List<Author> authors = authorRepository.findAll();
 
@@ -62,17 +69,24 @@ class AuthorRepositoryTest {
             assertThat(a.getLastName()).isEqualTo(lastName);
             assertThat(a.getBirthday()).isEqualTo(birthDay);
         });
-        assertEquals(3, authors.size());
+        assertEquals(4, authors.size());
     }
 
     @Test
     @DisplayName("deleting author from db is correct")
     void delete() {
-        Author author= authorRepository.findById(2L).orElseThrow(() -> new AuthorNotFoundException("Author with id " + 2L + " not found."));;
+        Author savedAuthor = authorRepository.save(Author.builder()
+                .firstName("Author5")
+                .lastName("Author5")
+                .birthday("1990-07-31")
+                .build());
+
+        Author author= authorRepository.findById(savedAuthor.getId()).orElseThrow(() -> new AuthorNotFoundException("Author with id " + 2L + " not found."));;
+
         authorRepository.delete(author);
         List<Author> authors = authorRepository.findAll();
 
         assertEquals(1, authors.size());
-        assertFalse(authorRepository.findById(2L).isPresent());
+        assertFalse(authorRepository.findById(savedAuthor.getId()).isPresent());
     }
 }

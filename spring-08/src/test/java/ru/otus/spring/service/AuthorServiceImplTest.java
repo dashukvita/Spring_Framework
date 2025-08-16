@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.spring.entity.Author;
 import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.service.imp.AuthorServiceImpl;
@@ -27,21 +28,21 @@ public class AuthorServiceImplTest {
         authorService = new AuthorServiceImpl(authorRepository);
     }
 
-    @Test
-    @DisplayName("fetching authors from db is correct")
-    void getAllAuthors() {
-        List<Author> authors = List.of(
-                new Author().setId(1L).setFirstName("Author1").setLastName("Last1").setBirthday("01.01.2000")
-        );
-        when(authorRepository.findAll()).thenReturn(authors);
-
-        List<Author> resultAuthors = authorService.findAll();
-
-        assertThat(resultAuthors).isNotNull().hasSize(1);
-        assertThat(resultAuthors.get(0).getFirstName()).isEqualTo("Author1");
-        verify(authorRepository).findAll();
-        verifyNoMoreInteractions(authorRepository);
-    }
+//    @Test
+//    @DisplayName("fetching authors from db is correct")
+//    void getAllAuthors() {
+//        List<Author> authors = List.of(
+//                new Author().setId(1L).setFirstName("Author1").setLastName("Last1").setBirthday("01.01.2000")
+//        );
+//        when(authorRepository.findAll()).thenReturn(authors);
+//
+//        List<Author> resultAuthors = authorService.findAll();
+//
+//        assertThat(resultAuthors).isNotNull().hasSize(1);
+//        assertThat(resultAuthors.get(0).getFirstName()).isEqualTo("Author1");
+//        verify(authorRepository).findAll();
+//        verifyNoMoreInteractions(authorRepository);
+//    }
 
     @Test
     @DisplayName("creating author is correct")

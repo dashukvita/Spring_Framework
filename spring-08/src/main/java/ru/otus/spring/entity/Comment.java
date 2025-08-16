@@ -1,19 +1,15 @@
 package ru.otus.spring.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-
+import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-@Accessors(chain = true)
+@AllArgsConstructor
+@Data
+@ToString
 @Document(collection = "comments")
 public class Comment {
     @Id

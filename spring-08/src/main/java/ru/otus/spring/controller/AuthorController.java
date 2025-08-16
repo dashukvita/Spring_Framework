@@ -36,7 +36,7 @@ public class AuthorController {
     }
 
     @ShellMethod(value = "Get author by id", key = {"get-author-id", "GA"})
-    public void getAuthorById(@ShellOption Long id) {
+    public void getAuthorById(@ShellOption String id) {
         Optional<Author> author = authorService.findById(id);
 
         if (author.isPresent()) {
@@ -51,7 +51,7 @@ public class AuthorController {
     }
 
     @ShellMethod(value = "Delete author", key = {"delete-author", "DA"})
-    public void deleteAuthor(@ShellOption Long id) {
+    public void deleteAuthor(@ShellOption String id) {
         Author author = authorService.findById(id).orElseThrow(() -> new AuthorNotFoundException("Author with id " + id + " not found."));
 
         authorService.deleteAuthor(id);

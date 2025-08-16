@@ -26,13 +26,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book createBook(String genreId, String authorId, String bookName) {
-        Author author = authorRepository.findById(authorId).orElseThrow(() -> new AuthorNotFoundException("Author with id " + authorId + " not found."));
-        Genre genre = genreRepository.findById(genreId).orElseThrow(() -> new GenreNotFoundException("Genre with id " + genreId + " not found."));
+        authorRepository.findById(authorId).orElseThrow(() -> new AuthorNotFoundException("Author with id " + authorId + " not found."));
+        genreRepository.findById(genreId).orElseThrow(() -> new GenreNotFoundException("Genre with id " + genreId + " not found."));
 
-        Book book = new Book()
-                .setGenre(genre)
-                .setAuthor(author)
-                .setBookName(bookName);
+        Book book = Book.builder()
+                .authorId(authorId)
+                .genreId(genreId)
+                .bookName(bookName)
+                .build();
 
         bookRepository.save(book);
         return book;
@@ -52,13 +53,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findByGenre(String genreId) {
         Genre genre = genreRepository.findById(genreId).orElseThrow(() -> new GenreNotFoundException("Genre with id " + genreId + " not found."));
-        return bookRepository.findByGenre(genre);
+        return null;
     }
 
     @Override
     public List<Book> findByAuthor(String authorId) {
         Author author = authorRepository.findById(authorId).orElseThrow(() -> new AuthorNotFoundException("Author with id " + authorId + " not found."));
-        return bookRepository.findByAuthor(author);
+        return null;
     }
 
     @Override

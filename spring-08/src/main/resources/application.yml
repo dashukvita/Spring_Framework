@@ -1,28 +1,16 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5433/postgres
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    properties:
-      hibernate:
-        format_sql: true
-
-    show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/your_db_name
 
   shell:
     interactive:
       enabled: true
 
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
-
-
 logging:
-    level:
-      ROOT: INFO
+  level:
+    ROOT: INFO
+
+mongock:
+  runner-type: initializingBean
+  change-logs-scan-package: ru.otus.changelogs

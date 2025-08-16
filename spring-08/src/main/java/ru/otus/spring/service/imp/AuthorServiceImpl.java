@@ -17,10 +17,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author createAuthor(String firstName, String lastName, String birthday) {
-        Author author = new Author()
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setBirthday(birthday);
+        Author author = Author.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .birthday(birthday)
+                .build();
 
         authorRepository.save(author);
         return author;

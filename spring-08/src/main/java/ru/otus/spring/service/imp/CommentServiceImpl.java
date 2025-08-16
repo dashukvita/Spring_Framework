@@ -23,9 +23,10 @@ public class CommentServiceImpl implements CommentService {
     public Comment createComment(String message, String bookId) {
         bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book with id " + bookId + " not found."));
 
-        Comment comment = new Comment()
-                .setMessage(message)
-                .setBookId(bookId);
+        Comment comment = Comment.builder()
+                .message(message)
+                .bookId(bookId)
+                .build();
 
         commentRepository.save(comment);
         return comment;
@@ -40,7 +41,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> findByBookId(String bookId) {
         bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Comments for book with id " + bookId + " not found."));
-        return commentRepository.findByBook(bookId);
+//        return commentRepository.findByBook(bookId);
+        return null;
     }
 
     @Override

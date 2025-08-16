@@ -19,9 +19,11 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre createGenre(String codeGenre, String genreName) {
-        Genre genre = new Genre()
-                .setCodeGenre(codeGenre)
-                .setGenreName(genreName);
+        Genre genre = Genre.builder()
+                .codeGenre(codeGenre)
+                .genreName(genreName)
+                .build();
+
         genreRepository.save(genre);
         return genre;
     }
