@@ -11,12 +11,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Document
+@Document(collection = "genres")
 public class Genre {
 
     @Id
     private String id;
     private String codeGenre;
     private String genreName;
-
 }

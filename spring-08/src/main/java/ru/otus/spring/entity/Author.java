@@ -21,6 +21,4 @@ public class Author {
     private String firstName;
     private String lastName;
     private String birthday;
-    private List<Book> books = new ArrayList<>();
-
 }
